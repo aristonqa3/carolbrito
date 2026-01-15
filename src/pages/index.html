@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ana Karoline | Arquitetura & Interiores</title>
+    <meta name="description" content="Arquiteta especializada em projetos contemporâneos, modernos e aconchegantes. Destaque para o uso criativo de cores e revestimentos. Residencial, comercial e reformas.">
+    
+    <!-- Preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Lora:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="../styles/tokens.css">
+    <link rel="stylesheet" href="../styles/base.css">
+    <link rel="stylesheet" href="../styles/components.css">
+    <link rel="stylesheet" href="../styles/layouts.css">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="https://placehold.co/32x32/1a1a1a/ffffff?text=AK" type="image/png">
+    
+    <!-- Schema.org -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Ana Karoline de Brito Pacheco",
+        "jobTitle": "Arquiteta e Designer de Interiores",
+        "description": "Arquiteta especializada em projetos contemporâneos, modernos e aconchegantes com destaque para cores e revestimentos",
+        "url": "https://anakaroline.com.br",
+        "sameAs": [
+            "https://www.instagram.com/ak_interiordeesign/",
+            "https://www.linkedin.com/in/anabritoo/"
+        ]
+    }
+    </script>
+</head>
+<body class="antialiased">
+    
+    <!-- Header -->
+    <div id="header-container"></div>
+
+    <!-- Main Content -->
+    <main id="main-content" style="padding-top: 80px;">
+        
+        <!-- SEÇÃO 1: SOBRE MIM -->
+        <section id="sobre" class="section bg-stone-100">
+            <div class="container">
+                <div class="max-w-4xl mx-auto">
+                    <div class="text-center mb-12 fade-in-up">
+                        <h1 class="text-4xl md:text-6xl font-bold mb-6 font-lora text-stone-800">Sobre Mim</h1>
+                    </div>
+                    
+                    <div class="grid md:grid-cols-2 gap-12 items-center">
+                        <div class="fade-in-up">
+                            <img src="/assets/sobre-mim.svg" 
+                                 alt="Ana Karoline, arquiteta especializada em projetos contemporâneos" 
+                                 class="rounded-lg shadow-xl w-full h-auto object-cover"
+                                 loading="lazy">
+                        </div>
+                        
+                        <div class="fade-in-up" style="animation-delay: 0.2s;">
+                            <div class="mb-6 p-4 bg-stone-200 rounded-lg border-l-4 border-stone-800">
+                                <p class="text-stone-800 font-semibold mb-1">🎓 Formação em Dezembro de 2026</p>
+                                <p class="text-stone-600 text-sm">Graduação em Arquitetura e Urbanismo</p>
+                            </div>
+                            
+                            <p class="text-stone-600 mb-6 leading-relaxed">
+                                Olá, meu nome é <strong>Ana Karoline de Brito Pacheco</strong>, tenho 23 anos e sou apaixonada por tudo o que envolve criar, planejar e transformar espaços. Minha trajetória começou com a formação em Design de Interiores e sigo trabalhando a caminho da graduação em Arquitetura e Urbanismo, onde me formarei em <strong>Dezembro de 2026</strong>.
+                            </p>
+                            
+                            <p class="text-stone-600 mb-6 leading-relaxed">
+                                Nos últimos 5 anos, tive a oportunidade de trabalhar no ramo da construção no setor de engenharia civil, desenvolvendo projetos de aprovação, executivos e <strong>fachadas 3D</strong>, além de me dedicar também a projetos de interiores. Cada experiência me fez compreender que a arquitetura vai muito além de linhas e medidas: ela é sobre pessoas, histórias e sonhos.
+                            </p>
+                            
+                            <p class="text-stone-600 mb-6 leading-relaxed">
+                                O que mais me encanta nessa profissão é poder participar desse processo tão especial de construir e dar forma a sonhos, unindo técnica, criatividade e sensibilidade. <strong>Meu diferencial está no uso de cores e revestimentos coloridos</strong>, criando espaços contemporâneos, modernos e aconchegantes com leveza. Acredito que cada projeto é único e carrega em si a essência de quem o idealiza — e é nesse ponto que encontro a verdadeira realização do meu trabalho.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SEÇÃO 2: PORTFÓLIO -->
+        <section id="portfolio" class="section bg-stone-200">
+            <div class="container">
+                <div class="text-center mb-12 fade-in-up">
+                    <h2 class="text-4xl md:text-6xl font-bold mb-4 font-lora text-stone-800">Portfólio</h2>
+                    <p class="max-w-2xl mx-auto text-stone-600">
+                        Cada projeto é uma jornada única, pensada com o propósito de criar espaços que unem estética, funcionalidade e emoção.
+                    </p>
+                </div>
+
+                <!-- Filtros -->
+                <div id="filter-buttons" class="flex justify-center flex-wrap gap-3 mb-12 fade-in-up"></div>
+
+                <!-- Grid de Projetos -->
+                <div id="portfolio-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
+            </div>
+        </section>
+
+        <!-- SEÇÃO 3: PROCESSO -->
+        <section id="processo" class="section bg-stone-100">
+            <div class="container">
+                <div class="text-center mb-16 fade-in-up">
+                    <h2 class="text-4xl md:text-6xl font-bold mb-4 font-lora text-stone-800">Processo</h2>
+                    <p class="max-w-2xl mx-auto text-stone-600">
+                        Acredito em um processo transparente e colaborativo, construindo uma parceria marcada pela confiança e dedicação.
+                    </p>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <!-- Passo 1 -->
+                    <div class="text-center fade-in-up">
+                        <div class="mb-4 inline-block p-4 border-2 border-stone-300 rounded-full">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="text-stone-700" viewBox="0 0 16 16">
+                                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+                            </svg>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-2 font-lora">01. A Escuta</h3>
+                        <p class="text-stone-600">Tudo começa com uma boa conversa. Quero ouvir seus sonhos, entender sua rotina e descobrir qual estilo representa melhor a sua personalidade.</p>
+                    </div>
+                    
+                    <!-- Passo 2 - DESTACADO -->
+                    <div class="text-center fade-in-up relative" style="animation-delay: 0.2s;">
+                        <div class="absolute -top-2 -right-2 bg-stone-800 text-white text-xs px-2 py-1 rounded-full font-bold">
+                            ESSENCIAL
+                        </div>
+                        <div class="mb-4 inline-block p-4 border-2 border-stone-800 rounded-full bg-stone-100">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="text-stone-800" viewBox="0 0 16 16">
+                                <path d="M2 6a6 6 0 1 1 10.174 4.31c-.203.196-.359.4-.453.619l-.762 1.769A.5.5 0 0 1 10.5 13h-5a.5.5 0 0 1-.46-.302l-.761-1.77a1.99 1.99 0 0 0-.453-.618A5.98 5.98 0 0 1 2 6m3 8.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1l-.224.447a1 1 0 0 1-.894.553H6.618a1 1 0 0 1-.894-.553L5.5 15a.5.5 0 0 1-.5-.5"/>
+                            </svg>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-2 font-lora">02. Elaboração</h3>
+                        <p class="text-stone-600"><strong>Etapa fundamental.</strong> Desenvolvo o projeto técnico com muita cautela, atenção e cuidado para transmitir a essência dos clientes, escolhendo materiais, cores e revestimentos com precisão.</p>
+                    </div>
+                    
+                    <!-- Passo 3 -->
+                    <div class="text-center fade-in-up" style="animation-delay: 0.4s;">
+                        <div class="mb-4 inline-block p-4 border-2 border-stone-300 rounded-full">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="text-stone-700" viewBox="0 0 16 16">
+                                <path d="M11.685.153a.5.5 0 0 1 .707.707L1.707 11.564.018 10.41l9.293-9.293z"/>
+                                <path fill-rule="evenodd" d="M14.072 2.93a1.5 1.5 0 0 1 0 2.121L12.06 7.061 9.939 4.94 11.95 2.93a1.5 1.5 0 0 1 2.121 0M2.686 10.686 0 13.372 2.628 16l2.686-2.686-2.628-2.628z"/>
+                            </svg>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-2 font-lora">03. Análise</h3>
+                        <p class="text-stone-600">Período destinado às devidas alterações e aprimoramentos do Anteprojeto, garantindo a consolidação de todas as definições.</p>
+                    </div>
+                    
+                    <!-- Passo 4 -->
+                    <div class="text-center fade-in-up" style="animation-delay: 0.6s;">
+                        <div class="mb-4 inline-block p-4 border-2 border-stone-300 rounded-full">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="text-stone-700" viewBox="0 0 16 16">
+                                <path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7m1.679-4.493-1.335 2.226a.75.75 0 0 1-1.174.144l-.774-.773a.5.5 0 0 1 .708-.708l.547.548 1.17-1.951a.5.5 0 1 1 .858.514Z"/>
+                                <path d="M2 1a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v6.5a.5.5 0 0 1-1 0V1H3v14h3v-2.5a.5.5 0 0 1 .5-.5H8v4H3a1 1 0 0 1-1-1z"/>
+                            </svg>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-2 font-lora">04. Entrega</h3>
+                        <p class="text-stone-600">Acompanhamento atento e contínuo, assegurando que cada etapa da execução seja fiel ao projeto desenvolvido.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SEÇÃO 4: CONTATO -->
+        <section id="contato" class="section bg-stone-200">
+            <div class="container text-center">
+                <div class="max-w-2xl mx-auto fade-in-up">
+                    <h2 class="text-4xl md:text-6xl font-bold mb-4 font-lora text-stone-800">Vamos dar vida ao seu espaço?</h2>
+                    <p class="mb-8 text-stone-600 text-lg">
+                        Seus sonhos, sua essência, seu espaço — juntos podemos dar vida a um ambiente que conte a sua história.
+                    </p>
+                    <a href="https://wa.me/5519974160944?text=Olá%20Carol,%20tudo%20bem?%20te%20encontrei%20através%20do%20seu%20portfólio%20e%20gostaria%20de%20conversar%20sobre" 
+                       target="_blank" 
+                       rel="noopener noreferrer"
+                       class="btn btn-primary">
+                        Me Envie uma Mensagem no WhatsApp
+                    </a>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <div id="footer-container"></div>
+
+    <!-- Scripts -->
+    <script type="module" src="./main.js"></script>
+</body>
+</html>

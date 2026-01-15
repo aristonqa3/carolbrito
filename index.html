@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ana Karoline | Arquitetura & Interiores</title>
+    <meta name="description" content="Portfólio pessoal apresentando projetos de arquitetura e design de interiores com foco em estética minimalista e funcionalidade.">
+    <meta name="keywords" content="arquiteto, designer de interiores, portfólio, arquitetura, design de interiores, projetos residenciais, projetos comerciais, minimalista">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Google Fonts: Inter (Corpo) e Lora (Títulos) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Lora:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+    
+    <!-- Favicon (Exemplo) -->
+    <link rel="icon" href="https://placehold.co/32x32/1a1a1a/ffffff?text=AK" type="image/png">
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f5f5f4; /* Stone 100 */
+            color: #292524; /* Stone 800 */
+        }
+        h1, h2, h3, h4, .font-lora {
+            font-family: 'Lora', serif;
+        }
+
+        /* Animações */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .fade-in-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Estilo para botões de filtro do portfólio */
+        .filter-btn {
+            @apply px-4 py-2 text-sm font-medium transition-colors duration-300 rounded-full;
+        }
+        .filter-btn.active {
+            @apply bg-stone-800 text-white;
+        }
+        .filter-btn:not(.active) {
+            @apply bg-stone-200 text-stone-700 hover:bg-stone-300;
+        }
+        
+        /* Efeito de sobreposição na imagem do projeto */
+        .project-card .overlay {
+            opacity: 0;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(4px);
+            transition: opacity 0.4s ease;
+        }
+        .project-card:hover .overlay {
+            opacity: 1;
+        }
+        
+        /* Estilos do Menu Lateral */
+        #sidebar {
+            width: 5rem; /* 80px */
+            transition: width 0.3s ease-in-out;
+        }
+        #sidebar.sidebar-expanded {
+            width: 16rem; /* 256px */
+        }
+
+        #main-content {
+            transition: margin-left 0.3s ease-in-out;
+        }
+
+        .sidebar-link-text {
+            opacity: 0;
+            transform: translateX(-0.75rem);
+            transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out;
+            transition-delay: 0.1s;
+        }
+        #sidebar.sidebar-expanded .sidebar-link-text {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* Estilos para troca de logo */
+        #logo-compact {
+            opacity: 1;
+        }
+        #logo-expanded {
+            opacity: 0;
+        }
+        #sidebar.sidebar-expanded #logo-compact {
+            opacity: 0;
+        }
+        #sidebar.sidebar-expanded #logo-expanded {
+            opacity: 1;
+        }
+        @media (max-width: 767px) {
+          #sidebar {
+            width: 0 !important;
+            min-width: 0 !important;
+            transition: width 0.3s ease-in-out;
+            overflow: hidden;
+          }
+          #sidebar.sidebar-expanded {
+            width: 60vw !important; /* menu cobre 80% da tela */
+            min-width: 0 !important;
+          }
+          #main-content {
+            margin-left: 0 !important;
+          }
+        }        
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- MENU LATERAL -->
+    <nav id="sidebar" class="fixed top-0 left-0 h-full bg-stone-800 text-white z-50 flex flex-col">
+        <!-- Logo -->
+        <div class="h-20 flex items-center justify-center border-b border-stone-700 flex-shrink-0 px-0 overflow-hidden">
+             <a href="#" class="relative w-full h-full flex items-center justify-center">
+                <!-- 
+                  LOGO COMPLETO (Menu Expandido)
+                  Melhor prática: Coloque seu logo completo (versão branca) na pasta 'assets'.
+                  Exemplo de nome: 'logo-completo-branco.svg' ou '.png'
+                -->
+                <img id="logo-expanded" src="./assets/logo-completo-branco.svg" alt="Logo Ana Karoline" class="h-full w-full object-cover transition-opacity duration-200">
+                
+                <!-- 
+                  LOGO REDUZIDO (Menu Recolhido)
+                  Melhor prática: Coloque seu logo 'AK' (versão branca) na pasta 'assets'.
+                  Exemplo de nome: 'logo-ak-branco.svg' ou '.png'
+                -->
+                <img id="logo-compact" src="./assets/logo-ak-branco.svg" alt="Logo AK" class="h-full w-full object-cover absolute transition-opacity duration-200">
+             </a>
+        </div>
+        <!-- Links de Navegação -->
+        <ul class="flex-grow">
+            <li>
+                <a href="#portfolio" class="flex items-center h-16 px-6 hover:bg-stone-700 transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" /></svg>
+                    <span class="sidebar-link-text ml-4 whitespace-nowrap">Portfólio</span>
+                </a>
+            </li>
+            <li>
+                <a href="#sobre" class="flex items-center h-16 px-6 hover:bg-stone-700 transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
+                    <span class="sidebar-link-text ml-4 whitespace-nowrap">Sobre Mim</span>
+                </a>
+            </li>
+            <li>
+                <a href="#processo" class="flex items-center h-16 px-6 hover:bg-stone-700 transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5V3a2 2 0 012-2h2a2 2 0 012 2v2" /></svg>
+                    <span class="sidebar-link-text ml-4 whitespace-nowrap">Processo</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://wa.me/5519974160944?text=Olá%20Carol,%20tudo%20bem?%20te%20encontrei%20através%20do%20seu%20portfólio%20e%20gostaria%20de%20conversar%20sobre" class="flex items-center h-16 px-6 hover:bg-stone-700 transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+                    <span class="sidebar-link-text ml-4 whitespace-nowrap">Contato</span>
+                </a>
+            </li>
+            <li>
+                <a href="./src/pages/admin/login.html" class="flex items-center h-16 px-6 hover:bg-stone-700 transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+                    </svg>
+                    <span class="sidebar-link-text ml-4 whitespace-nowrap">Admin</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    
+    <!-- Botão de Menu Mobile -->
+    <button id="mobile-menu-button" class="md:hidden fixed top-4 right-4 z-[60] p-2 rounded-md bg-stone-800 text-white">
+        <svg id="menu-open-icon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+        </svg>
+         <svg id="menu-close-icon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+    </button>
+    
+    <div id="main-content">
+        <main>
+            <!-- SEÇÃO HERO -->
+            <section id="hero" class="pt-20 pb-20 md:pt-20 md:pb-20">
+                <div class="container mx-auto px-6 grid md:grid-cols-2 gap-10 items-center">
+                    <div class="text-center md:text-left">
+                        <h2 class="text-4xl md:text-5xl font-bold leading-tight mb-4 font-lora fade-in-up">Criando espaços, transformando sonhos, contando histórias.</h2>
+                        <p class="text-lg md:text-xl max-w-xl mx-auto md:mx-0 mb-8 text-stone-600 fade-in-up" style="animation-delay: 0.2s;">Meu trabalho é dar forma a sonhos, traduzindo ideias em espaços que unem beleza, propósito e identidade.</p>
+                        <a href="#portfolio" class="bg-stone-800 text-white font-bold py-3 px-8 rounded-full hover:bg-stone-700 transition-transform hover:scale-105 inline-block fade-in-up" style="animation-delay: 0.4s;">Conheça meus projetos</a>
+                    </div>
+                    <div class="fade-in-up hidden md:block" style="animation-delay: 0.3s;">
+                        <img src="https://images.unsplash.com/photo-1600585152915-d208bec867a1?q=80&w=2574&auto=format&fit=crop" alt="Interior de uma casa moderna e aconchegante" class="rounded-lg shadow-xl w-full h-auto object-cover">
+                    </div>
+                </div>
+            </section>
+
+            <!-- SEÇÃO PORTFÓLIO -->
+            <section id="portfolio" class="py-20 md:py-20 bg-stone-200">
+                <div class="container mx-auto px-6">
+                    <div class="text-center mb-12 fade-in-up">
+                        <h2 class="text-3xl md:text-5xl font-bold mb-4 font-lora">Projetos</h2>
+                        <p class="max-w-2xl mx-auto text-stone-600">Cada projeto é uma jornada única, pensada com o propósito de criar espaços que unem estética, funcionalidade e emoção.</p>
+                    </div>
+
+                    <!-- Filtros -->
+                    <div class="flex justify-center flex-wrap gap-2 md:space-x-4 mb-12 fade-in-up visible font-bold md:text-2xl">
+                        <button class="filter-btn active" data-filter="all">Todos</button>
+                        <button class="filter-btn" data-filter="residencial">Residencial</button>
+                        <button class="filter-btn" data-filter="comercial">Comercial</button>
+                    </div>
+
+                    <!-- Grid de Projetos -->
+                    <div id="portfolio-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        <!-- Projeto 1 -->
+                        <div class="project-card fade-in-up" data-category="residencial">
+                            <div class="relative overflow-hidden rounded-lg group aspect-w-4 aspect-h-3">
+                                <img src="https://images.unsplash.com/photo-1618220179428-22790b461013?q=80&w=2574&auto=format&fit=crop" alt="Projeto de Interiores para Sala de Estar" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500" loading="lazy">
+                                <div class="overlay absolute inset-0 flex flex-col justify-center items-center p-6 text-center">
+                                    <h3 class="text-xl font-bold text-stone-800 font-lora mb-1">Casa Leticia & Anderson</h3>
+                                    <p class="text-stone-600 text-sm">Design de Interiores</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Outros projetos seguem a mesma estrutura -->
+                        <div class="project-card fade-in-up" data-category="comercial">
+                            <div class="relative overflow-hidden rounded-lg group aspect-w-4 aspect-h-3">
+                                <img src="https://images.unsplash.com/photo-1543269865-cbf427effbad?q=80&w=2670&auto=format&fit=crop" alt="Edifício Comercial Moderno" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500" loading="lazy">
+                                 <div class="overlay absolute inset-0 flex flex-col justify-center items-center p-6 text-center">
+                                    <h3 class="text-xl font-bold text-stone-800 font-lora mb-1">Nexus Corporate Center</h3>
+                                    <p class="text-stone-600 text-sm">Arquitetura Comercial</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="project-card fade-in-up" data-category="urbano">
+                             <div class="relative overflow-hidden rounded-lg group aspect-w-4 aspect-h-3">
+                                <img src="https://images.unsplash.com/photo-1549225893-601e381b854a?q=80&w=2574&auto=format&fit=crop" alt="Projeto de Planejamento Urbano" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500" loading="lazy">
+                                <div class="overlay absolute inset-0 flex flex-col justify-center items-center p-6 text-center">
+                                    <h3 class="text-xl font-bold text-stone-800 font-lora mb-1">Parque Metropolitano</h3>
+                                    <p class="text-stone-600 text-sm">Planejamento Urbano</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="project-card fade-in-up" data-category="residencial">
+                             <div class="relative overflow-hidden rounded-lg group aspect-w-4 aspect-h-3">
+                                <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2670&auto=format&fit=crop" alt="Casa Minimalista" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500" loading="lazy">
+                                <div class="overlay absolute inset-0 flex flex-col justify-center items-center p-6 text-center">
+                                    <h3 class="text-xl font-bold text-stone-800 font-lora mb-1">Casa Atrium</h3>
+                                    <p class="text-stone-600 text-sm">Arquitetura Residencial</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="project-card fade-in-up" data-category="comercial">
+                             <div class="relative overflow-hidden rounded-lg group aspect-w-4 aspect-h-3">
+                                <img src="https://images.unsplash.com/photo-1593902553290-34938a95777a?q=80&w=2564&auto=format&fit=crop" alt="Loja Conceito" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500" loading="lazy">
+                                <div class="overlay absolute inset-0 flex flex-col justify-center items-center p-6 text-center">
+                                    <h3 class="text-xl font-bold text-stone-800 font-lora mb-1">Galeria Vértice</h3>
+                                    <p class="text-stone-600 text-sm">Arquitetura Comercial</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="project-card fade-in-up" data-category="urbano">
+                             <div class="relative overflow-hidden rounded-lg group aspect-w-4 aspect-h-3">
+                                <img src="https://images.unsplash.com/photo-1504222490345-c055e3a071dc?q=80&w=2670&auto=format&fit=crop" alt="Revitalização de Orla" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500" loading="lazy">
+                                <div class="overlay absolute inset-0 flex flex-col justify-center items-center p-6 text-center">
+                                    <h3 class="text-xl font-bold text-stone-800 font-lora mb-1">Orla Fluvial Requalificada</h3>
+                                    <p class="text-stone-600 text-sm">Planejamento Urbano</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SEÇÃO SOBRE -->
+            <section id="sobre" class="py-20 md:py-20">
+                <div class="container mx-auto px-6 grid md:grid-cols-2 gap-12 items-auto">
+                    <div class="fade-in-up">
+                        <img id="sobre-mim" src="./assets/sobre-mim.svg" alt="Arquiteta trabalhando em seu escritório" class="rounded-lg shadow-xl w-full h-auto object-cover">
+                    </div>
+                    <div class="fade-in-up" style="animation-delay: 0.2s;">
+                        <h1 class="text-3xl md:text-5xl font-bold mb-6 font-lora">Sobre Mim</h1>
+                        <p class="text-stone-600 mb-10 leading-relaxed">Olá, meu nome é Ana Karoline de Brito Pacheco, tenho 23 anos e sou apaixonada por tudo o que envolve criar, planejar e transformar espaços. Minha trajetória começou com a formação em Design de Interiores e sigo trabalhando a caminho da graduação em Arquitetura e Urbanismo, onde irei me formar em 2026.</p>
+                        <p class="text-stone-600 mb-10 leading-relaxed">Nos últimos 5 anos, tive a oportunidade de trabalhar no ramo da construção no setor de engenharia civil, desenvolvendo projetos de aprovação, executivos e fachadas 3D, além de me dedicar também a projetos de interiores. Cada experiência me fez compreender que cada projeto e a arquitetura vai muito além de linhas e medidas: ela é sobre pessoas, histórias e sonhos.</p>
+                        <p class="text-stone-600 mb-10 leading-relaxed">O que mais me encanta nessa profissão é justamente poder participar desse processo tão especial de construir e dar forma a sonhos, unindo técnica, criatividade e sensibilidade. Acredito que cada projeto é único e carrega em si a essência de quem o idealiza — e é nesse ponto que encontro a verdadeira realização do meu trabalho.</p>
+                        <a href="https://wa.me/5519974160944?text=Olá%20Carol,%20tudo%20bem?%20te%20encontrei%20através%20do%20seu%20portfólio%20e%20gostaria%20de%20conversar%20sobre" class="border border-stone-800 text-stone-800 font-bold py-3 px-8 rounded-full hover:bg-stone-800 hover:text-white transition-colors">Vamos Conversar?</a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SEÇÃO PROCESSO DE DESIGN -->
+            <section id="processo" class="py-20 md:py-20 bg-stone-200">
+                <div class="container mx-auto px-6">
+                    <div class="text-center mb-16 fade-in-up">
+                        <h2 class="text-3xl md:text-5xl font-bold mb-4 font-lora">Etapas do Processo</h2>
+                        <p class="max-w-2xl mx-auto text-stone-600">Acredito em um processo transparente e colaborativo, construindo uma parceria marcada pela confiança e dedicação, do primeiro traço até a concretização de cada projeto.</p>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 text-center">
+                        <!-- Passo 1 -->
+                        <div class="fade-in-up" style="animation-delay: 0s;">
+                            <div class="mb-4 inline-block p-4 border-2 border-stone-300 rounded-full">
+                               <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-search text-stone-700" viewBox="0 0 16 16"><path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/></svg>
+                            </div>
+                            <h3 class="text-3xl font-bold mb-2 font-lora">01. A Escuta</h3>
+                            <p class="text-stone-600">Tudo começa com uma boa conversa. Quero ouvir seus sonhos, entender sua rotina e descobrir qual estilo representa melhor a sua personalidade e anotar seu programa de necessidades.</p>
+                        </div>
+                        <!-- Passo 2 -->
+                        <div class="fade-in-up" style="animation-delay: 0.2s;">
+                            <div class="mb-4 inline-block p-4 border-2 border-stone-300 rounded-full">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-lightbulb text-stone-700" viewBox="0 0 16 16"><path d="M2 6a6 6 0 1 1 10.174 4.31c-.203.196-.359.4-.453.619l-.762 1.769A.5.5 0 0 1 10.5 13h-5a.5.5 0 0 1-.46-.302l-.761-1.77a1.99 1.99 0 0 0-.453-.618A5.98 5.98 0 0 1 2 6m3 8.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1l-.224.447a1 1 0 0 1-.894.553H6.618a1 1 0 0 1-.894-.553L5.5 15a.5.5 0 0 1-.5-.5"/></svg>
+                            </div>
+                            <h3 class="text-3xl font-bold mb-2 font-lora">02. A Criação do Ante-Projeto</h3>
+                            <p class="text-stone-600">É aqui que as ideias ganham forma. Construímos juntos o conceito que dará alma ao seu espaço, com um olhar atento, desenvolvo o projeto técnico, escolhendo materiais e soluções com o máximo de cuidado e precisão.</p>
+                        </div>
+                        <!-- Passo 3 -->
+                        <div class="fade-in-up" style="animation-delay: 0.4s;">
+                            <div class="mb-4 inline-block p-4 border-2 border-stone-300 rounded-full">
+                               <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-pencil-ruler text-stone-700" viewBox="0 0 16 16"><path d="M11.685.153a.5.5 0 0 1 .707.707L1.707 11.564.018 10.41l9.293-9.293z"/><path fill-rule="evenodd" d="M14.072 2.93a1.5 1.5 0 0 1 0 2.121L12.06 7.061 9.939 4.94 11.95 2.93a1.5 1.5 0 0 1 2.121 0M2.686 10.686 0 13.372 2.628 16l2.686-2.686-2.628-2.628zM1 12.372l.372-.372 1.293 1.293-.372.372zM12 1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1M4 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z"/><path d="M4 2.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5"/></svg>
+                            </div>
+                            <h3 class="text-3xl font-bold mb-2 font-lora">03. Análise e Alterações</h3>
+                            <p class="text-stone-600">Após a avaliação, será considerado um período destinado às devidas alterações e aprimoramentos do Anteprojeto, garantindo a consolidação de todas as definições antes do desenvolvimento da etapa final.</p>
+                        </div>
+                        <!-- Passo 4 -->
+                        <div class="fade-in-up" style="animation-delay: 0.6s;">
+                            <div class="mb-4 inline-block p-4 border-2 border-stone-300 rounded-full">
+                               <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-building-check text-stone-700" viewBox="0 0 16 16"><path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7m1.679-4.493-1.335 2.226a.75.75 0 0 1-1.174.144l-.774-.773a.5.5 0 0 1 .708-.708l.547.548 1.17-1.951a.5.5 0 1 1 .858.514ZM11 5.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-1 0V6h-.5a.5.5 0 0 1-.5-.5"/>
+          <path d="M2 1a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v6.5a.5.5 0 0 1-1 0V1H3v14h3v-2.5a.5.5 0 0 1 .5-.5H8v4H3a1 1 0 0 1-1-1z"/>
+          <path d="M4.5 2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-1 0v-.5H5a.5.5 0 0 1-.5-.5M4.5 5.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-1 0v-.5H5a.5.5 0 0 1-.5-.5M4.5 8.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-1 0v-.5H5a.5.5 0 0 1-.5-.5m4.5 2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-1 0v-.5H9a.5.5 0 0 1-.5-.5m-4.5 2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-1 0v-.5H5a.5.5 0 0 1-.5-.5"/></svg>
+                            </div>
+                            <h3 class="text-3xl font-bold mb-2 font-lora">04. Entrega Final</h3>
+                            <p class="text-stone-600">Realizo um acompanhamento online atento e contínuo, assegurando que cada etapa da execução seja fiel ao projeto desenvolvido e entregue com qualidade para que se torne realidade.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SEÇÃO CONTATO (CALL TO ACTION) -->
+            <section id="contato" class="py-20 md:py-20">
+                <div class="container mx-auto px-6 text-center">
+                     <div class="fade-in-up">
+                        <h2 class="text-3xl md:text-5xl font-bold mb-4 font-lora">Vamos dar vida ao seu espaço?</h2>
+                        <p class="max-w-2xl mx-auto mb-8 text-stone-600">Seus sonhos, sua essência, seu espaço — juntos podemos dar vida a um ambiente que conte a sua história.</p>
+                        <a href="https://wa.me/5519974160944?text=Olá%20Carol,%20tudo%20bem?%20te%20encontrei%20através%20do%20seu%20portfólio%20e%20gostaria%20de%20conversar%20sobre" class="bg-stone-800 text-white font-bold py-3 px-8 rounded-full hover:bg-stone-700 transition-transform hover:scale-105 inline-block">Me Envie uma Mensagem</a>
+                     </div>
+                </div>
+            </section>
+
+        </main>
+
+        <!-- FOOTER -->
+        <footer class="bg-stone-200 py-8">
+            <div class="container mx-auto px-6 text-center text-stone-500">
+                <p>&copy; 2025 Ana Karoline Arquitetura & Interiores. Todos os direitos reservados.</p>
+                <div class="flex justify-center space-x-6 mt-4">
+                    <a href="https://www.instagram.com/ak_interiordeesign/" target="_blank" rel="noopener noreferrer" class="text-stone-500 hover:text-stone-900 transition-colors">
+                        <span class="sr-only">Instagram</span>
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.024.06 1.378.06 3.808s-.012 2.784-.06 3.808c-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.024.048-1.378.06-3.808.06s-2.784-.012-3.808-.06c-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.048-1.024-.06-1.378-.06-3.808s.012-2.784.06-3.808c.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 016.08 2.525c.636-.247 1.363-.416 2.427.465C9.53 2.013 9.884 2 12.315 2zm0 1.625c-2.403 0-2.748.01-3.71.058-1.002.047-1.547.21-1.94.38a3.27 3.27 0 00-1.18 1.18c-.17.393-.333.938-.38 1.94-.048.962-.058 1.307-.058 3.71s.01 2.748.058 3.71c.047 1.002.21 1.547.38 1.94a3.27 3.27 0 001.18 1.18c.393.17.938.333 1.94.38.962.048 1.307.058 3.71.058s2.748-.01 3.71-.058c1.002-.047 1.547-.21 1.94-.38a3.27 3.27 0 001.18-1.18c.17-.393.333-.938.38-1.94.048-.962.058-1.307.058-3.71s-.01-2.748-.058-3.71c-.047-1.002-.21-1.547-.38-1.94a3.27 3.27 0 00-1.18-1.18c-.393-.17-.938-.333-1.94-.38-.962-.048-1.307-.058-3.71-.058zM12 8.118a4.195 4.195 0 100 8.39 4.195 4.195 0 000-8.39zm0 6.765a2.57 2.57 0 110-5.14 2.57 2.57 0 010 5.14zm5.18-8.15a.96.96 0 100-1.92.96.96 0 000 1.92z" clip-rule="evenodd" /></svg>
+                </a>
+                <a href="https://www.linkedin.com/in/anabritoo/" class="text-stone-500 hover:text-stone-900 transition-colors">
+                    <span class="sr-only">LinkedIn</span>
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                </a>
+                <a href="#" class="text-stone-500 hover:text-stone-900 transition-colors">
+                    <span class="sr-only">Pinterest</span>
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0c-6.627 0-12 5.373-12 12 0 5.084 3.163 9.426 7.627 11.174-.105-.949-.2-2.405.042-3.441.218-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.782c0-1.668.967-2.914 2.171-2.914 1.023 0 1.518.769 1.518 1.69 0 1.029-.655 2.568-.994 3.995-.283 1.194.599 2.169 1.777 2.169 2.133 0 3.772-2.249 3.772-5.495 0-2.873-2.064-4.882-5.012-4.882-3.414 0-5.418 2.561-5.418 5.207 0 .992.371 1.931.842 2.417.097.1.1-.223.076-.347-.054-.26-.178-.718-.24-1.022-.07-.369-.119-.481-.119-.732 0-.773.57-1.425 1.428-1.425.928 0 1.66.943 1.66 2.056 0 .973-.418 2.378-.651 2.91-.122.274-.015.549.214.659.351.179.71.219 1.05.083.504-.191.826-.71.928-1.156.132-.579.196-1.244.196-1.843 0-2.581-1.28-4.715-3.546-4.715-2.922 0-4.89 2.165-4.89 4.549 0 1.512.666 2.869 1.583 3.428.093.055.192.013.245-.081.06-.11.053-.196.04-.309-.07- .5-.192-1.033-.192-1.488 0-.911.332-1.748.992-2.318.652-.563 1.52-.854 2.393-.854 1.834 0 3.145 1.272 3.145 3.145 0 1.939-1.004 3.518-2.427 3.518-.868 0-1.624-.592-1.884-1.283-.145-.381-.46-1.442-.558-1.833-.133-.513-.71-2.292-.71-3.033 0-1.22.846-2.296 2.392-2.296 1.251 0 2.268.869 2.268 2.296 0 1.04-.356 1.875-.793 2.568-.429.687-1.161 1.334-1.161 1.334s-.442 1.859-.539 2.192c-.093.32-.145.638-.225.936-.08.298-.178.599-.283.895-.105.295-.229.578-.374.845-.145.267-.306.52-.482.758a11.96 11.96 0 01-1.022 1.285c-.869.969-1.897 1.625-3.004 1.968-1.107.343-2.285.429-3.468.21-1.183-.219-2.306-.65-3.328-1.286a12 12 0 00-1.085-3.218c-.297-1.149-.3-2.366-.174-3.574.125-1.207.42-2.39.83-3.481l1.39-3.525.43-.999c.351-.81.78-1.585 1.282-2.296C9.282 1.489 10.59 1.001 12 1.001c1.556 0 2.986.49 4.168 1.334 1.182.844 2.15 2.015 2.693 3.39C19.404 7.054 19.5 8.25 19.5 9.471c0 2.786-1.556 5.257-4.015 5.257-1.22 0-2.259-.879-2.259-2.043 0-1.439.826-2.529 1.874-2.529.96 0 1.603.574 1.603 1.439 0 .826-.269 1.636-.453 2.122-.184.486.299.896.793.708 1.439-.549 2.16-1.859 2.16-3.228 0-1.813-1.439-3.328-3.525-3.328-2.366 0-4.218 1.939-4.218 4.015 0 .868.225 1.705.623 2.259.097.132.049.306-.119.381-1.161.549-1.392.179-1.939-1.076-.225-.531-.356-1.161-.356-1.859 0-1.939 1.301-3.574 3.228-3.574 1.603 0 2.873 1.076 2.873 2.873 0 1.488-.599 2.828-1.488 3.479-.549.371-.973.479-1.488.269-1.244-.504-1.884-1.813-1.884-3.085 0-1.512 1.022-2.922 2.922-2.922 1.488 0 2.529 1 2.529 2.259 0 1.121-.43 2.122-1.022 2.617-.592.495-.826 1.121-.623 1.813.203.692.671 1.22 1.341 1.512.928.399 2.15.347 3.251-.132 1.101-.479 2.039-1.244 2.777-2.259.739-1.015 1.251-2.238 1.488-3.574.238-1.334.184-2.72-.153-4.015C21.49 5.012 20.373 2.777 18.259 1.439 16.596.347 14.388 0 12 0z"/></svg>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const sidebar = document.getElementById('sidebar');
+            const mainContent = document.getElementById('main-content');
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const menuOpenIcon = document.getElementById('menu-open-icon');
+            const menuCloseIcon = document.getElementById('menu-close-icon');
+
+            const isDesktop = () => window.innerWidth >= 768;
+
+            const expandSidebar = () => {
+                if (!sidebar.classList.contains('sidebar-expanded')) {
+                    sidebar.classList.add('sidebar-expanded');
+                    if (isDesktop()) {
+                        mainContent.style.marginLeft = '16rem';
+                    }
+                }
+            };
+
+            const collapseSidebar = () => {
+                if (sidebar.classList.contains('sidebar-expanded')) {
+                    sidebar.classList.remove('sidebar-expanded');
+                    if (isDesktop()) {
+                        mainContent.style.marginLeft = '5rem';
+                    }
+                }
+            };
+
+            const setupLayout = () => {
+                if (isDesktop()) {
+                    mainContent.style.marginLeft = '5rem';
+                    sidebar.addEventListener('mouseenter', expandSidebar);
+                    sidebar.addEventListener('mouseleave', collapseSidebar);
+                    // Garante que o menu mobile esteja fechado ao redimensionar para desktop
+                    if (sidebar.classList.contains('sidebar-expanded')) {
+                        collapseSidebar();
+                    }
+                    menuOpenIcon.classList.remove('hidden');
+                    menuCloseIcon.classList.add('hidden');
+                } else {
+                    mainContent.style.marginLeft = '0';
+                    sidebar.removeEventListener('mouseenter', expandSidebar);
+                    sidebar.removeEventListener('mouseleave', collapseSidebar);
+                     // Garante que o menu esteja colapsado em mobile
+                    collapseSidebar();
+                }
+            };
+            
+            setupLayout();
+            window.addEventListener('resize', setupLayout);
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.fade-in-up').forEach(el => observer.observe(el));
+            
+            mobileMenuButton.addEventListener('click', () => {
+                sidebar.classList.toggle('sidebar-expanded');
+                menuOpenIcon.classList.toggle('hidden');
+                menuCloseIcon.classList.toggle('hidden');
+            });
+
+            // Fecha o menu mobile ao clicar em um link
+            document.querySelectorAll('#sidebar a').forEach(link => {
+                link.addEventListener('click', () => {
+                    if (!isDesktop() && sidebar.classList.contains('sidebar-expanded')) {
+                         setTimeout(() => {
+                            sidebar.classList.remove('sidebar-expanded');
+                            menuOpenIcon.classList.remove('hidden');
+                            menuCloseIcon.classList.add('hidden');
+                        }, 250);
+                    }
+                });
+            });
+
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            const projectCards = document.querySelectorAll('.project-card');
+
+            filterButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                    const filter = button.dataset.filter;
+                    
+                    projectCards.forEach(card => {
+                        card.style.transition = 'opacity 0.3s ease-out, transform 0.3s ease-out';
+                        card.style.opacity = '0';
+                        card.style.transform = 'scale(0.95)';
+                        
+                        const showCard = filter === 'all' || card.dataset.category === filter;
+                        
+                        setTimeout(() => {
+                            card.style.display = showCard ? 'block' : 'none';
+                            setTimeout(() => {
+                                if(showCard) {
+                                    card.style.opacity = '1';
+                                    card.style.transform = 'scale(1)';
+                                }
+                            }, 20);
+                        }, 300);
+                    });
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
