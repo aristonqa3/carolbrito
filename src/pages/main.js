@@ -53,13 +53,50 @@ async function loadProjects(category = CATEGORIES.ALL) {
 // Carregar projetos iniciais
 loadProjects();
 
-// Animações de scroll
-const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.classList.add('visible');
-        }
-    });
-}, { threshold: 0.1 });
+// Animações de scroll - Observer global com cleanup automático
+let globalObserver = null;
 
-document.querySelectorAll('.fade-in-up').forEach(el => observer.observe(el));
+function initGlobalObserver() {
+    // Desconectar observer anterior se existir
+    if (globalObserver) {
+        globalObserver.disconnect();
+    }
+
+    globalObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                // Desconectar após animação para economizar recursos
+                globalObserver.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.1 });
+
+    // Observar apenas elementos que ainda não foram animados
+    observeNewElements();
+}
+
+function observeNewElements() {
+    if (!globalObserver) return;
+    document.querySelectorAll('.fade-in-up:not(.visible)').forEach(el => {
+        globalObserver.observe(el);
+    });
+}
+
+// Inicializar observer após DOM estar pronto
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initGlobalObserver);
+} else {
+    initGlobalObserver();
+}
+
+// Re-observar elementos quando novos são adicionados dinamicamente
+// Usar MutationObserver para detectar mudanças no DOM
+const mutationObserver = new MutationObserver(() => {
+    observeNewElements();
+});
+
+mutationObserver.observe(document.body, {
+    childList: true,
+    subtree: true
+});

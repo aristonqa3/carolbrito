@@ -4,25 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ana Karoline | Arquitetura & Interiores</title>
-    <meta name="description" content="Portfólio pessoal apresentando projetos de arquitetura e design de interiores com foco em estética minimalista e funcionalidade.">
-    <meta name="keywords" content="arquiteto, designer de interiores, portfólio, arquitetura, design de interiores, projetos residenciais, projetos comerciais, minimalista">
+    <meta name="description" content="Arquiteta especializada em projetos contemporâneos, modernos e aconchegantes. Destaque para o uso criativo de cores e revestimentos. Residencial, comercial e reformas.">
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
 
-    <!-- Google Fonts: Inter (Corpo) e Lora (Títulos) -->
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Lora:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
     
-    <!-- Favicon (Exemplo) -->
+    <!-- Favicon -->
     <link rel="icon" href="https://placehold.co/32x32/1a1a1a/ffffff?text=AK" type="image/png">
 
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f5f5f4; /* Stone 100 */
-            color: #292524; /* Stone 800 */
+            background-color: #f5f5f4;
+            color: #292524;
         }
         h1, h2, h3, h4, .font-lora {
             font-family: 'Lora', serif;
@@ -41,13 +40,13 @@
         
         /* Estilo para botões de filtro do portfólio */
         .filter-btn {
-            @apply px-4 py-2 text-sm font-medium transition-colors duration-300 rounded-full;
+            @apply px-3 py-1.5 md:px-4 md:py-2 text-xs md:text-sm font-medium transition-colors duration-300 rounded-full;
         }
         .filter-btn.active {
             @apply bg-stone-800 text-white;
         }
         .filter-btn:not(.active) {
-            @apply bg-stone-200 text-stone-700 hover:bg-stone-300;
+            @apply bg-white text-stone-700 hover:bg-stone-300;
         }
         
         /* Efeito de sobreposição na imagem do projeto */
@@ -63,11 +62,11 @@
         
         /* Estilos do Menu Lateral */
         #sidebar {
-            width: 5rem; /* 80px */
+            width: 5rem;
             transition: width 0.3s ease-in-out;
         }
         #sidebar.sidebar-expanded {
-            width: 16rem; /* 256px */
+            width: 16rem;
         }
 
         #main-content {
@@ -98,6 +97,7 @@
         #sidebar.sidebar-expanded #logo-expanded {
             opacity: 1;
         }
+
         @media (max-width: 767px) {
           #sidebar {
             width: 0 !important;
@@ -106,13 +106,22 @@
             overflow: hidden;
           }
           #sidebar.sidebar-expanded {
-            width: 60vw !important; /* menu cobre 80% da tela */
+            width: 60vw !important;
             min-width: 0 !important;
           }
           #main-content {
             margin-left: 0 !important;
           }
-        }        
+        }
+
+        /* Project Card Styles */
+        .project-card {
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .project-card:hover {
+            transform: translateY(-5px);
+        }
     </style>
 </head>
 <body class="antialiased">
@@ -122,18 +131,7 @@
         <!-- Logo -->
         <div class="h-20 flex items-center justify-center border-b border-stone-700 flex-shrink-0 px-0 overflow-hidden">
              <a href="#" class="relative w-full h-full flex items-center justify-center">
-                <!-- 
-                  LOGO COMPLETO (Menu Expandido)
-                  Melhor prática: Coloque seu logo completo (versão branca) na pasta 'assets'.
-                  Exemplo de nome: 'logo-completo-branco.svg' ou '.png'
-                -->
                 <img id="logo-expanded" src="./assets/logo-completo-branco.svg" alt="Logo Ana Karoline" class="h-full w-full object-cover transition-opacity duration-200">
-                
-                <!-- 
-                  LOGO REDUZIDO (Menu Recolhido)
-                  Melhor prática: Coloque seu logo 'AK' (versão branca) na pasta 'assets'.
-                  Exemplo de nome: 'logo-ak-branco.svg' ou '.png'
-                -->
                 <img id="logo-compact" src="./assets/logo-ak-branco.svg" alt="Logo AK" class="h-full w-full object-cover absolute transition-opacity duration-200">
              </a>
         </div>
@@ -187,165 +185,132 @@
     <div id="main-content">
         <main>
             <!-- SEÇÃO HERO -->
-            <section id="hero" class="pt-20 pb-20 md:pt-20 md:pb-20">
-                <div class="container mx-auto px-6 grid md:grid-cols-2 gap-10 items-center">
-                    <div class="text-center md:text-left">
-                        <h2 class="text-4xl md:text-5xl font-bold leading-tight mb-4 font-lora fade-in-up">Criando espaços, transformando sonhos, contando histórias.</h2>
-                        <p class="text-lg md:text-xl max-w-xl mx-auto md:mx-0 mb-8 text-stone-600 fade-in-up" style="animation-delay: 0.2s;">Meu trabalho é dar forma a sonhos, traduzindo ideias em espaços que unem beleza, propósito e identidade.</p>
-                        <a href="#portfolio" class="bg-stone-800 text-white font-bold py-3 px-8 rounded-full hover:bg-stone-700 transition-transform hover:scale-105 inline-block fade-in-up" style="animation-delay: 0.4s;">Conheça meus projetos</a>
+            <section id="hero" class="relative min-h-[60vh] md:min-h-[85vh] flex items-center overflow-hidden">
+                <!-- Background Slideshow -->
+                <div id="hero-slideshow" class="absolute inset-0 z-0">
+                    <div class="hero-slide absolute inset-0 opacity-100 transition-opacity duration-1000">
+                        <img src="https://images.unsplash.com/photo-1600585152915-d208bec867a1?q=80&w=2574&auto=format&fit=crop" alt="Interior moderno" class="w-full h-full object-cover" loading="eager" fetchpriority="high">
                     </div>
-                    <div class="fade-in-up hidden md:block" style="animation-delay: 0.3s;">
-                        <img src="https://images.unsplash.com/photo-1600585152915-d208bec867a1?q=80&w=2574&auto=format&fit=crop" alt="Interior de uma casa moderna e aconchegante" class="rounded-lg shadow-xl w-full h-auto object-cover">
+                    <div class="hero-slide absolute inset-0 opacity-0 transition-opacity duration-1000">
+                        <img src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?q=80&w=2574&auto=format&fit=crop" alt="Sala de estar elegante" class="w-full h-full object-cover" loading="lazy">
                     </div>
+                    <div class="hero-slide absolute inset-0 opacity-0 transition-opacity duration-1000">
+                        <img src="https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?q=80&w=2574&auto=format&fit=crop" alt="Cozinha contemporânea" class="w-full h-full object-cover" loading="lazy">
+                    </div>
+                    <div class="hero-slide absolute inset-0 opacity-0 transition-opacity duration-1000">
+                        <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=2574&auto=format&fit=crop" alt="Quarto aconchegante" class="w-full h-full object-cover" loading="lazy">
+                    </div>
+                </div>
+                <!-- Overlay escuro para legibilidade -->
+                <div class="absolute inset-0 bg-black/40 z-10"></div>
+                <!-- Conteúdo -->
+                <div class="container mx-auto px-4 md:px-6 relative z-20">
+                    <div class="max-w-2xl">
+                        <h2 class="text-3xl md:text-5xl lg:text-6xl font-bold leading-tight mb-4 md:mb-6 font-lora fade-in-up text-white drop-shadow-lg">Criando espaços, transformando sonhos, contando histórias.</h2>
+                        <p class="text-base md:text-xl mb-6 md:mb-8 text-stone-100 fade-in-up drop-shadow" style="animation-delay: 0.2s;">Meu trabalho é dar forma a sonhos, traduzindo ideias em espaços que unem beleza, propósito e identidade.</p>
+                        <a href="#portfolio" class="bg-white text-stone-800 font-bold py-3 px-6 md:px-8 rounded-full hover:bg-stone-100 transition-transform hover:scale-105 inline-block fade-in-up shadow-lg text-sm md:text-base" style="animation-delay: 0.4s;">Conheça meus projetos</a>
+                    </div>
+                </div>
+                <!-- Indicadores do slideshow -->
+                <div class="absolute bottom-6 md:bottom-8 left-1/2 -translate-x-1/2 z-20 flex space-x-3">
+                    <button class="hero-indicator w-2.5 h-2.5 md:w-3 md:h-3 rounded-full bg-white/50 hover:bg-white transition-colors" data-slide="0"></button>
+                    <button class="hero-indicator w-2.5 h-2.5 md:w-3 md:h-3 rounded-full bg-white/50 hover:bg-white transition-colors" data-slide="1"></button>
+                    <button class="hero-indicator w-2.5 h-2.5 md:w-3 md:h-3 rounded-full bg-white/50 hover:bg-white transition-colors" data-slide="2"></button>
+                    <button class="hero-indicator w-2.5 h-2.5 md:w-3 md:h-3 rounded-full bg-white/50 hover:bg-white transition-colors" data-slide="3"></button>
                 </div>
             </section>
 
             <!-- SEÇÃO PORTFÓLIO -->
-            <section id="portfolio" class="py-20 md:py-20 bg-stone-200">
-                <div class="container mx-auto px-6">
-                    <div class="text-center mb-12 fade-in-up">
-                        <h2 class="text-3xl md:text-5xl font-bold mb-4 font-lora">Projetos</h2>
-                        <p class="max-w-2xl mx-auto text-stone-600">Cada projeto é uma jornada única, pensada com o propósito de criar espaços que unem estética, funcionalidade e emoção.</p>
+            <section id="portfolio" class="py-12 md:py-20 bg-stone-200">
+                <div class="container mx-auto px-4 md:px-6">
+                    <div class="text-center mb-8 md:mb-12 fade-in-up">
+                        <h2 class="text-2xl md:text-5xl font-bold mb-3 md:mb-4 font-lora">Portfólio</h2>
+                        <p class="max-w-2xl mx-auto text-stone-600 text-sm md:text-base">Cada projeto é uma jornada única, pensada com o propósito de criar espaços que unem estética, funcionalidade e emoção.</p>
                     </div>
 
-                    <!-- Filtros -->
-                    <div class="flex justify-center flex-wrap gap-2 md:space-x-4 mb-12 fade-in-up visible font-bold md:text-2xl">
-                        <button class="filter-btn active" data-filter="all">Todos</button>
-                        <button class="filter-btn" data-filter="residencial">Residencial</button>
-                        <button class="filter-btn" data-filter="comercial">Comercial</button>
-                    </div>
+                    <!-- Filtros (carregados dinamicamente) -->
+                    <div id="filter-buttons" class="flex justify-center flex-wrap gap-2 mb-8 md:mb-12 fade-in-up visible font-bold text-sm md:text-lg"></div>
 
-                    <!-- Grid de Projetos -->
-                    <div id="portfolio-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        <!-- Projeto 1 -->
-                        <div class="project-card fade-in-up" data-category="residencial">
-                            <div class="relative overflow-hidden rounded-lg group aspect-w-4 aspect-h-3">
-                                <img src="https://images.unsplash.com/photo-1618220179428-22790b461013?q=80&w=2574&auto=format&fit=crop" alt="Projeto de Interiores para Sala de Estar" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500" loading="lazy">
-                                <div class="overlay absolute inset-0 flex flex-col justify-center items-center p-6 text-center">
-                                    <h3 class="text-xl font-bold text-stone-800 font-lora mb-1">Casa Leticia & Anderson</h3>
-                                    <p class="text-stone-600 text-sm">Design de Interiores</p>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Outros projetos seguem a mesma estrutura -->
-                        <div class="project-card fade-in-up" data-category="comercial">
-                            <div class="relative overflow-hidden rounded-lg group aspect-w-4 aspect-h-3">
-                                <img src="https://images.unsplash.com/photo-1543269865-cbf427effbad?q=80&w=2670&auto=format&fit=crop" alt="Edifício Comercial Moderno" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500" loading="lazy">
-                                 <div class="overlay absolute inset-0 flex flex-col justify-center items-center p-6 text-center">
-                                    <h3 class="text-xl font-bold text-stone-800 font-lora mb-1">Nexus Corporate Center</h3>
-                                    <p class="text-stone-600 text-sm">Arquitetura Comercial</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="project-card fade-in-up" data-category="urbano">
-                             <div class="relative overflow-hidden rounded-lg group aspect-w-4 aspect-h-3">
-                                <img src="https://images.unsplash.com/photo-1549225893-601e381b854a?q=80&w=2574&auto=format&fit=crop" alt="Projeto de Planejamento Urbano" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500" loading="lazy">
-                                <div class="overlay absolute inset-0 flex flex-col justify-center items-center p-6 text-center">
-                                    <h3 class="text-xl font-bold text-stone-800 font-lora mb-1">Parque Metropolitano</h3>
-                                    <p class="text-stone-600 text-sm">Planejamento Urbano</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="project-card fade-in-up" data-category="residencial">
-                             <div class="relative overflow-hidden rounded-lg group aspect-w-4 aspect-h-3">
-                                <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2670&auto=format&fit=crop" alt="Casa Minimalista" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500" loading="lazy">
-                                <div class="overlay absolute inset-0 flex flex-col justify-center items-center p-6 text-center">
-                                    <h3 class="text-xl font-bold text-stone-800 font-lora mb-1">Casa Atrium</h3>
-                                    <p class="text-stone-600 text-sm">Arquitetura Residencial</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="project-card fade-in-up" data-category="comercial">
-                             <div class="relative overflow-hidden rounded-lg group aspect-w-4 aspect-h-3">
-                                <img src="https://images.unsplash.com/photo-1593902553290-34938a95777a?q=80&w=2564&auto=format&fit=crop" alt="Loja Conceito" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500" loading="lazy">
-                                <div class="overlay absolute inset-0 flex flex-col justify-center items-center p-6 text-center">
-                                    <h3 class="text-xl font-bold text-stone-800 font-lora mb-1">Galeria Vértice</h3>
-                                    <p class="text-stone-600 text-sm">Arquitetura Comercial</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="project-card fade-in-up" data-category="urbano">
-                             <div class="relative overflow-hidden rounded-lg group aspect-w-4 aspect-h-3">
-                                <img src="https://images.unsplash.com/photo-1504222490345-c055e3a071dc?q=80&w=2670&auto=format&fit=crop" alt="Revitalização de Orla" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500" loading="lazy">
-                                <div class="overlay absolute inset-0 flex flex-col justify-center items-center p-6 text-center">
-                                    <h3 class="text-xl font-bold text-stone-800 font-lora mb-1">Orla Fluvial Requalificada</h3>
-                                    <p class="text-stone-600 text-sm">Planejamento Urbano</p>
-                                </div>
-                            </div>
-                        </div>
+                    <!-- Grid de Projetos (carregados dinamicamente) -->
+                    <div id="portfolio-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8">
+                        <!-- Projetos serão carregados aqui via JavaScript -->
+                        <p class="col-span-full text-center text-stone-600 py-8 md:py-12">Carregando projetos...</p>
                     </div>
                 </div>
             </section>
 
             <!-- SEÇÃO SOBRE -->
-            <section id="sobre" class="py-20 md:py-20">
-                <div class="container mx-auto px-6 grid md:grid-cols-2 gap-12 items-auto">
+            <section id="sobre" class="py-12 md:py-20">
+                <div class="container mx-auto px-4 md:px-6 grid md:grid-cols-2 gap-8 md:gap-12 items-center">
                     <div class="fade-in-up">
                         <img id="sobre-mim" src="./assets/sobre-mim.svg" alt="Arquiteta trabalhando em seu escritório" class="rounded-lg shadow-xl w-full h-auto object-cover">
                     </div>
                     <div class="fade-in-up" style="animation-delay: 0.2s;">
-                        <h1 class="text-3xl md:text-5xl font-bold mb-6 font-lora">Sobre Mim</h1>
-                        <p class="text-stone-600 mb-10 leading-relaxed">Olá, meu nome é Ana Karoline de Brito Pacheco, tenho 23 anos e sou apaixonada por tudo o que envolve criar, planejar e transformar espaços. Minha trajetória começou com a formação em Design de Interiores e sigo trabalhando a caminho da graduação em Arquitetura e Urbanismo, onde irei me formar em 2026.</p>
-                        <p class="text-stone-600 mb-10 leading-relaxed">Nos últimos 5 anos, tive a oportunidade de trabalhar no ramo da construção no setor de engenharia civil, desenvolvendo projetos de aprovação, executivos e fachadas 3D, além de me dedicar também a projetos de interiores. Cada experiência me fez compreender que cada projeto e a arquitetura vai muito além de linhas e medidas: ela é sobre pessoas, histórias e sonhos.</p>
-                        <p class="text-stone-600 mb-10 leading-relaxed">O que mais me encanta nessa profissão é justamente poder participar desse processo tão especial de construir e dar forma a sonhos, unindo técnica, criatividade e sensibilidade. Acredito que cada projeto é único e carrega em si a essência de quem o idealiza — e é nesse ponto que encontro a verdadeira realização do meu trabalho.</p>
-                        <a href="https://wa.me/5519974160944?text=Olá%20Carol,%20tudo%20bem?%20te%20encontrei%20através%20do%20seu%20portfólio%20e%20gostaria%20de%20conversar%20sobre" class="border border-stone-800 text-stone-800 font-bold py-3 px-8 rounded-full hover:bg-stone-800 hover:text-white transition-colors">Vamos Conversar?</a>
+                        <h1 class="text-2xl md:text-5xl font-bold mb-4 md:mb-6 font-lora">Sobre Mim</h1>
+                        <div class="mb-4 md:mb-6 p-3 md:p-4 bg-stone-200 rounded-lg border-l-4 border-stone-800">
+                            <p class="text-stone-800 font-semibold mb-1 text-sm md:text-base">🎓 Formação em Dezembro de 2026</p>
+                            <p class="text-stone-600 text-xs md:text-sm">Graduação em Arquitetura e Urbanismo</p>
+                        </div>
+                        <p class="text-stone-600 mb-4 md:mb-6 leading-relaxed text-sm md:text-base">Olá, meu nome é <strong>Ana Karoline de Brito Pacheco</strong>, tenho 23 anos e sou apaixonada por tudo o que envolve criar, planejar e transformar espaços. Minha trajetória começou com a formação em Design de Interiores e sigo trabalhando a caminho da graduação em Arquitetura e Urbanismo.</p>
+                        <p class="text-stone-600 mb-4 md:mb-6 leading-relaxed text-sm md:text-base">Nos últimos 5 anos, tive a oportunidade de trabalhar no ramo da construção no setor de engenharia civil, desenvolvendo projetos de aprovação, executivos e <strong>fachadas 3D</strong>, além de me dedicar também a projetos de interiores.</p>
+                        <p class="text-stone-600 mb-4 md:mb-6 leading-relaxed text-sm md:text-base">O que mais me encanta nessa profissão é poder participar desse processo tão especial de construir e dar forma a sonhos, unindo técnica, criatividade e sensibilidade. <strong>Meu diferencial está no uso de cores e revestimentos coloridos</strong>, criando espaços contemporâneos, modernos e aconchegantes com leveza.</p>
+                        <a href="https://wa.me/5519974160944?text=Olá%20Carol,%20tudo%20bem?%20te%20encontrei%20através%20do%20seu%20portfólio%20e%20gostaria%20de%20conversar%20sobre" class="border border-stone-800 text-stone-800 font-bold py-2.5 md:py-3 px-6 md:px-8 rounded-full hover:bg-stone-800 hover:text-white transition-colors text-sm md:text-base inline-block">Vamos Conversar?</a>
                     </div>
                 </div>
             </section>
 
             <!-- SEÇÃO PROCESSO DE DESIGN -->
-            <section id="processo" class="py-20 md:py-20 bg-stone-200">
-                <div class="container mx-auto px-6">
-                    <div class="text-center mb-16 fade-in-up">
-                        <h2 class="text-3xl md:text-5xl font-bold mb-4 font-lora">Etapas do Processo</h2>
-                        <p class="max-w-2xl mx-auto text-stone-600">Acredito em um processo transparente e colaborativo, construindo uma parceria marcada pela confiança e dedicação, do primeiro traço até a concretização de cada projeto.</p>
+            <section id="processo" class="py-12 md:py-20 bg-stone-200">
+                <div class="container mx-auto px-4 md:px-6">
+                    <div class="text-center mb-10 md:mb-16 fade-in-up">
+                        <h2 class="text-2xl md:text-5xl font-bold mb-3 md:mb-4 font-lora">Etapas do Processo</h2>
+                        <p class="max-w-2xl mx-auto text-stone-600 text-sm md:text-base">Acredito em um processo transparente e colaborativo, construindo uma parceria marcada pela confiança e dedicação, do primeiro traço até a concretização de cada projeto.</p>
                     </div>
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 text-center">
+                    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8 text-center">
                         <!-- Passo 1 -->
                         <div class="fade-in-up" style="animation-delay: 0s;">
-                            <div class="mb-4 inline-block p-4 border-2 border-stone-300 rounded-full">
-                               <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-search text-stone-700" viewBox="0 0 16 16"><path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/></svg>
+                            <div class="mb-3 md:mb-4 inline-block p-3 md:p-4 border-2 border-stone-800 rounded-full">
+                               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-search text-stone-800 md:w-8 md:h-8" viewBox="0 0 16 16"><path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/></svg>
                             </div>
-                            <h3 class="text-3xl font-bold mb-2 font-lora">01. A Escuta</h3>
-                            <p class="text-stone-600">Tudo começa com uma boa conversa. Quero ouvir seus sonhos, entender sua rotina e descobrir qual estilo representa melhor a sua personalidade e anotar seu programa de necessidades.</p>
+                            <h3 class="text-lg md:text-2xl font-bold mb-2 font-lora">01. A Escuta</h3>
+                            <p class="text-stone-600 text-xs md:text-base">Tudo começa com uma boa conversa. Quero ouvir seus sonhos, entender sua rotina e descobrir qual estilo representa melhor a sua personalidade.</p>
                         </div>
-                        <!-- Passo 2 -->
-                        <div class="fade-in-up" style="animation-delay: 0.2s;">
-                            <div class="mb-4 inline-block p-4 border-2 border-stone-300 rounded-full">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-lightbulb text-stone-700" viewBox="0 0 16 16"><path d="M2 6a6 6 0 1 1 10.174 4.31c-.203.196-.359.4-.453.619l-.762 1.769A.5.5 0 0 1 10.5 13h-5a.5.5 0 0 1-.46-.302l-.761-1.77a1.99 1.99 0 0 0-.453-.618A5.98 5.98 0 0 1 2 6m3 8.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1l-.224.447a1 1 0 0 1-.894.553H6.618a1 1 0 0 1-.894-.553L5.5 15a.5.5 0 0 1-.5-.5"/></svg>
+                        <!-- Passo 2 - DESTACADO -->
+                        <div class="fade-in-up relative" style="animation-delay: 0.2s;">
+                            <div class="absolute -top-1 -right-1 md:-top-2 md:-right-2 bg-stone-800 text-white text-[10px] md:text-xs px-1.5 md:px-2 py-0.5 md:py-1 rounded-full font-bold">ESSENCIAL</div>
+                            <div class="mb-3 md:mb-4 inline-block p-3 md:p-4 border-2 border-stone-800 rounded-full bg-stone-100">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-lightbulb text-stone-800 md:w-8 md:h-8" viewBox="0 0 16 16"><path d="M2 6a6 6 0 1 1 10.174 4.31c-.203.196-.359.4-.453.619l-.762 1.769A.5.5 0 0 1 10.5 13h-5a.5.5 0 0 1-.46-.302l-.761-1.77a1.99 1.99 0 0 0-.453-.618A5.98 5.98 0 0 1 2 6m3 8.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1l-.224.447a1 1 0 0 1-.894.553H6.618a1 1 0 0 1-.894-.553L5.5 15a.5.5 0 0 1-.5-.5"/></svg>
                             </div>
-                            <h3 class="text-3xl font-bold mb-2 font-lora">02. A Criação do Ante-Projeto</h3>
-                            <p class="text-stone-600">É aqui que as ideias ganham forma. Construímos juntos o conceito que dará alma ao seu espaço, com um olhar atento, desenvolvo o projeto técnico, escolhendo materiais e soluções com o máximo de cuidado e precisão.</p>
+                            <h3 class="text-lg md:text-2xl font-bold mb-2 font-lora">02. Elaboração</h3>
+                            <p class="text-stone-600 text-xs md:text-base"><strong>Etapa fundamental.</strong> Desenvolvo o projeto técnico com muita cautela, atenção e cuidado, escolhendo materiais, cores e revestimentos com precisão.</p>
                         </div>
                         <!-- Passo 3 -->
                         <div class="fade-in-up" style="animation-delay: 0.4s;">
-                            <div class="mb-4 inline-block p-4 border-2 border-stone-300 rounded-full">
-                               <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-pencil-ruler text-stone-700" viewBox="0 0 16 16"><path d="M11.685.153a.5.5 0 0 1 .707.707L1.707 11.564.018 10.41l9.293-9.293z"/><path fill-rule="evenodd" d="M14.072 2.93a1.5 1.5 0 0 1 0 2.121L12.06 7.061 9.939 4.94 11.95 2.93a1.5 1.5 0 0 1 2.121 0M2.686 10.686 0 13.372 2.628 16l2.686-2.686-2.628-2.628zM1 12.372l.372-.372 1.293 1.293-.372.372zM12 1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1M4 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z"/><path d="M4 2.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5"/></svg>
+                            <div class="mb-3 md:mb-4 inline-block p-3 md:p-4 border-2 border-stone-800 rounded-full">
+                               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-pencil-ruler text-stone-800 md:w-8 md:h-8" viewBox="0 0 16 16"><path d="M11.685.153a.5.5 0 0 1 .707.707L1.707 11.564.018 10.41l9.293-9.293z"/><path fill-rule="evenodd" d="M14.072 2.93a1.5 1.5 0 0 1 0 2.121L12.06 7.061 9.939 4.94 11.95 2.93a1.5 1.5 0 0 1 2.121 0M2.686 10.686 0 13.372 2.628 16l2.686-2.686-2.628-2.628z"/></svg>
                             </div>
-                            <h3 class="text-3xl font-bold mb-2 font-lora">03. Análise e Alterações</h3>
-                            <p class="text-stone-600">Após a avaliação, será considerado um período destinado às devidas alterações e aprimoramentos do Anteprojeto, garantindo a consolidação de todas as definições antes do desenvolvimento da etapa final.</p>
+                            <h3 class="text-lg md:text-2xl font-bold mb-2 font-lora">03. Análise</h3>
+                            <p class="text-stone-600 text-xs md:text-base">Período destinado às devidas alterações e aprimoramentos do Anteprojeto, garantindo a consolidação de todas as definições.</p>
                         </div>
                         <!-- Passo 4 -->
                         <div class="fade-in-up" style="animation-delay: 0.6s;">
-                            <div class="mb-4 inline-block p-4 border-2 border-stone-300 rounded-full">
-                               <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-building-check text-stone-700" viewBox="0 0 16 16"><path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7m1.679-4.493-1.335 2.226a.75.75 0 0 1-1.174.144l-.774-.773a.5.5 0 0 1 .708-.708l.547.548 1.17-1.951a.5.5 0 1 1 .858.514ZM11 5.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-1 0V6h-.5a.5.5 0 0 1-.5-.5"/>
-          <path d="M2 1a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v6.5a.5.5 0 0 1-1 0V1H3v14h3v-2.5a.5.5 0 0 1 .5-.5H8v4H3a1 1 0 0 1-1-1z"/>
-          <path d="M4.5 2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-1 0v-.5H5a.5.5 0 0 1-.5-.5M4.5 5.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-1 0v-.5H5a.5.5 0 0 1-.5-.5M4.5 8.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-1 0v-.5H5a.5.5 0 0 1-.5-.5m4.5 2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-1 0v-.5H9a.5.5 0 0 1-.5-.5m-4.5 2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-1 0v-.5H5a.5.5 0 0 1-.5-.5"/></svg>
+                            <div class="mb-3 md:mb-4 inline-block p-3 md:p-4 border-2 border-stone-800 rounded-full">
+                               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-building-check text-stone-800 md:w-8 md:h-8" viewBox="0 0 16 16"><path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7m1.679-4.493-1.335 2.226a.75.75 0 0 1-1.174.144l-.774-.773a.5.5 0 0 1 .708-.708l.547.548 1.17-1.951a.5.5 0 1 1 .858.514Z"/><path d="M2 1a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v6.5a.5.5 0 0 1-1 0V1H3v14h3v-2.5a.5.5 0 0 1 .5-.5H8v4H3a1 1 0 0 1-1-1z"/></svg>
                             </div>
-                            <h3 class="text-3xl font-bold mb-2 font-lora">04. Entrega Final</h3>
-                            <p class="text-stone-600">Realizo um acompanhamento online atento e contínuo, assegurando que cada etapa da execução seja fiel ao projeto desenvolvido e entregue com qualidade para que se torne realidade.</p>
+                            <h3 class="text-lg md:text-2xl font-bold mb-2 font-lora">04. Entrega</h3>
+                            <p class="text-stone-600 text-xs md:text-base">Acompanhamento atento e contínuo, assegurando que cada etapa da execução seja fiel ao projeto desenvolvido.</p>
                         </div>
                     </div>
                 </div>
             </section>
 
-            <!-- SEÇÃO CONTATO (CALL TO ACTION) -->
-            <section id="contato" class="py-20 md:py-20">
-                <div class="container mx-auto px-6 text-center">
+            <!-- SEÇÃO CONTATO -->
+            <section id="contato" class="py-12 md:py-20">
+                <div class="container mx-auto px-4 md:px-6 text-center">
                      <div class="fade-in-up">
-                        <h2 class="text-3xl md:text-5xl font-bold mb-4 font-lora">Vamos dar vida ao seu espaço?</h2>
-                        <p class="max-w-2xl mx-auto mb-8 text-stone-600">Seus sonhos, sua essência, seu espaço — juntos podemos dar vida a um ambiente que conte a sua história.</p>
-                        <a href="https://wa.me/5519974160944?text=Olá%20Carol,%20tudo%20bem?%20te%20encontrei%20através%20do%20seu%20portfólio%20e%20gostaria%20de%20conversar%20sobre" class="bg-stone-800 text-white font-bold py-3 px-8 rounded-full hover:bg-stone-700 transition-transform hover:scale-105 inline-block">Me Envie uma Mensagem</a>
+                        <h2 class="text-2xl md:text-5xl font-bold mb-3 md:mb-4 font-lora">Vamos dar vida ao seu espaço?</h2>
+                        <p class="max-w-2xl mx-auto mb-6 md:mb-8 text-stone-600 text-sm md:text-base">Seus sonhos, sua essência, seu espaço — juntos podemos dar vida a um ambiente que conte a sua história.</p>
+                        <a href="https://wa.me/5519974160944?text=Olá%20Carol,%20tudo%20bem?%20te%20encontrei%20através%20do%20seu%20portfólio%20e%20gostaria%20de%20conversar%20sobre" class="bg-stone-800 text-white font-bold py-2.5 md:py-3 px-6 md:px-8 rounded-full hover:bg-stone-700 transition-transform hover:scale-105 inline-block text-sm md:text-base">Me Envie uma Mensagem</a>
                      </div>
                 </div>
             </section>
@@ -353,154 +318,410 @@
         </main>
 
         <!-- FOOTER -->
-        <footer class="bg-stone-200 py-8">
-            <div class="container mx-auto px-6 text-center text-stone-500">
-                <p>&copy; 2025 Ana Karoline Arquitetura & Interiores. Todos os direitos reservados.</p>
-                <div class="flex justify-center space-x-6 mt-4">
+        <footer class="bg-stone-200 py-6 md:py-8">
+            <div class="container mx-auto px-4 md:px-6 text-center text-stone-500">
+                <p class="text-xs md:text-base">&copy; 2025 Ana Karoline Arquitetura & Interiores. Todos os direitos reservados.</p>
+                <div class="flex justify-center space-x-5 md:space-x-6 mt-3 md:mt-4">
                     <a href="https://www.instagram.com/ak_interiordeesign/" target="_blank" rel="noopener noreferrer" class="text-stone-500 hover:text-stone-900 transition-colors">
                         <span class="sr-only">Instagram</span>
-                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.024.06 1.378.06 3.808s-.012 2.784-.06 3.808c-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.024.048-1.378.06-3.808.06s-2.784-.012-3.808-.06c-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.048-1.024-.06-1.378-.06-3.808s.012-2.784.06-3.808c.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 016.08 2.525c.636-.247 1.363-.416 2.427.465C9.53 2.013 9.884 2 12.315 2zm0 1.625c-2.403 0-2.748.01-3.71.058-1.002.047-1.547.21-1.94.38a3.27 3.27 0 00-1.18 1.18c-.17.393-.333.938-.38 1.94-.048.962-.058 1.307-.058 3.71s.01 2.748.058 3.71c.047 1.002.21 1.547.38 1.94a3.27 3.27 0 001.18 1.18c.393.17.938.333 1.94.38.962.048 1.307.058 3.71.058s2.748-.01 3.71-.058c1.002-.047 1.547-.21 1.94-.38a3.27 3.27 0 001.18-1.18c.17-.393.333-.938.38-1.94.048-.962.058-1.307.058-3.71s-.01-2.748-.058-3.71c-.047-1.002-.21-1.547-.38-1.94a3.27 3.27 0 00-1.18-1.18c-.393-.17-.938-.333-1.94-.38-.962-.048-1.307-.058-3.71-.058zM12 8.118a4.195 4.195 0 100 8.39 4.195 4.195 0 000-8.39zm0 6.765a2.57 2.57 0 110-5.14 2.57 2.57 0 010 5.14zm5.18-8.15a.96.96 0 100-1.92.96.96 0 000 1.92z" clip-rule="evenodd" /></svg>
-                </a>
-                <a href="https://www.linkedin.com/in/anabritoo/" class="text-stone-500 hover:text-stone-900 transition-colors">
-                    <span class="sr-only">LinkedIn</span>
-                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
-                </a>
-                <a href="#" class="text-stone-500 hover:text-stone-900 transition-colors">
-                    <span class="sr-only">Pinterest</span>
-                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0c-6.627 0-12 5.373-12 12 0 5.084 3.163 9.426 7.627 11.174-.105-.949-.2-2.405.042-3.441.218-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.782c0-1.668.967-2.914 2.171-2.914 1.023 0 1.518.769 1.518 1.69 0 1.029-.655 2.568-.994 3.995-.283 1.194.599 2.169 1.777 2.169 2.133 0 3.772-2.249 3.772-5.495 0-2.873-2.064-4.882-5.012-4.882-3.414 0-5.418 2.561-5.418 5.207 0 .992.371 1.931.842 2.417.097.1.1-.223.076-.347-.054-.26-.178-.718-.24-1.022-.07-.369-.119-.481-.119-.732 0-.773.57-1.425 1.428-1.425.928 0 1.66.943 1.66 2.056 0 .973-.418 2.378-.651 2.91-.122.274-.015.549.214.659.351.179.71.219 1.05.083.504-.191.826-.71.928-1.156.132-.579.196-1.244.196-1.843 0-2.581-1.28-4.715-3.546-4.715-2.922 0-4.89 2.165-4.89 4.549 0 1.512.666 2.869 1.583 3.428.093.055.192.013.245-.081.06-.11.053-.196.04-.309-.07- .5-.192-1.033-.192-1.488 0-.911.332-1.748.992-2.318.652-.563 1.52-.854 2.393-.854 1.834 0 3.145 1.272 3.145 3.145 0 1.939-1.004 3.518-2.427 3.518-.868 0-1.624-.592-1.884-1.283-.145-.381-.46-1.442-.558-1.833-.133-.513-.71-2.292-.71-3.033 0-1.22.846-2.296 2.392-2.296 1.251 0 2.268.869 2.268 2.296 0 1.04-.356 1.875-.793 2.568-.429.687-1.161 1.334-1.161 1.334s-.442 1.859-.539 2.192c-.093.32-.145.638-.225.936-.08.298-.178.599-.283.895-.105.295-.229.578-.374.845-.145.267-.306.52-.482.758a11.96 11.96 0 01-1.022 1.285c-.869.969-1.897 1.625-3.004 1.968-1.107.343-2.285.429-3.468.21-1.183-.219-2.306-.65-3.328-1.286a12 12 0 00-1.085-3.218c-.297-1.149-.3-2.366-.174-3.574.125-1.207.42-2.39.83-3.481l1.39-3.525.43-.999c.351-.81.78-1.585 1.282-2.296C9.282 1.489 10.59 1.001 12 1.001c1.556 0 2.986.49 4.168 1.334 1.182.844 2.15 2.015 2.693 3.39C19.404 7.054 19.5 8.25 19.5 9.471c0 2.786-1.556 5.257-4.015 5.257-1.22 0-2.259-.879-2.259-2.043 0-1.439.826-2.529 1.874-2.529.96 0 1.603.574 1.603 1.439 0 .826-.269 1.636-.453 2.122-.184.486.299.896.793.708 1.439-.549 2.16-1.859 2.16-3.228 0-1.813-1.439-3.328-3.525-3.328-2.366 0-4.218 1.939-4.218 4.015 0 .868.225 1.705.623 2.259.097.132.049.306-.119.381-1.161.549-1.392.179-1.939-1.076-.225-.531-.356-1.161-.356-1.859 0-1.939 1.301-3.574 3.228-3.574 1.603 0 2.873 1.076 2.873 2.873 0 1.488-.599 2.828-1.488 3.479-.549.371-.973.479-1.488.269-1.244-.504-1.884-1.813-1.884-3.085 0-1.512 1.022-2.922 2.922-2.922 1.488 0 2.529 1 2.529 2.259 0 1.121-.43 2.122-1.022 2.617-.592.495-.826 1.121-.623 1.813.203.692.671 1.22 1.341 1.512.928.399 2.15.347 3.251-.132 1.101-.479 2.039-1.244 2.777-2.259.739-1.015 1.251-2.238 1.488-3.574.238-1.334.184-2.72-.153-4.015C21.49 5.012 20.373 2.777 18.259 1.439 16.596.347 14.388 0 12 0z"/></svg>
-                </a>
+                        <svg class="w-5 h-5 md:w-6 md:h-6" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.024.06 1.378.06 3.808s-.012 2.784-.06 3.808c-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.024.048-1.378.06-3.808.06s-2.784-.012-3.808-.06c-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.048-1.024-.06-1.378-.06-3.808s.012-2.784.06-3.808c.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 016.08 2.525c.636-.247 1.363-.416 2.427.465C9.53 2.013 9.884 2 12.315 2z" clip-rule="evenodd"/></svg>
+                    </a>
+                    <a href="https://www.linkedin.com/in/anabritoo/" class="text-stone-500 hover:text-stone-900 transition-colors">
+                        <span class="sr-only">LinkedIn</span>
+                        <svg class="w-5 h-5 md:w-6 md:h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                    </a>
+                </div>
             </div>
+        </footer>
+    </div>
+
+    <!-- Modal para projetos -->
+    <div id="project-modal" class="fixed inset-0 bg-black bg-opacity-75 backdrop-blur-sm z-[100] hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+            <div class="p-6 border-b border-stone-200 flex justify-between items-center sticky top-0 bg-white z-10">
+                <h3 id="modal-title" class="text-2xl font-bold font-lora"></h3>
+                <button id="close-modal" class="text-stone-500 hover:text-stone-900 text-2xl">&times;</button>
+            </div>
+            <div id="modal-content" class="p-6"></div>
         </div>
-    </footer>
+    </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const sidebar = document.getElementById('sidebar');
-            const mainContent = document.getElementById('main-content');
-            const mobileMenuButton = document.getElementById('mobile-menu-button');
-            const menuOpenIcon = document.getElementById('menu-open-icon');
-            const menuCloseIcon = document.getElementById('menu-close-icon');
+    <!-- Estilos da Galeria do Modal - Carregado via CSS externo -->
+    <link rel="stylesheet" href="./src/styles/modal.css">
 
-            const isDesktop = () => window.innerWidth >= 768;
+    <!-- Scripts -->
+    <script type="module">
+        import { projectService } from './src/services/project.service.js';
+        import { CATEGORIES, CATEGORY_LABELS } from './src/lib/utils/constants.js';
 
-            const expandSidebar = () => {
-                if (!sidebar.classList.contains('sidebar-expanded')) {
-                    sidebar.classList.add('sidebar-expanded');
-                    if (isDesktop()) {
-                        mainContent.style.marginLeft = '16rem';
-                    }
+        // Sidebar functionality
+        const sidebar = document.getElementById('sidebar');
+        const mainContent = document.getElementById('main-content');
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const menuOpenIcon = document.getElementById('menu-open-icon');
+        const menuCloseIcon = document.getElementById('menu-close-icon');
+
+        const isDesktop = () => window.innerWidth >= 768;
+
+        const expandSidebar = () => {
+            if (!sidebar.classList.contains('sidebar-expanded')) {
+                sidebar.classList.add('sidebar-expanded');
+                if (isDesktop()) {
+                    mainContent.style.marginLeft = '16rem';
                 }
-            };
+            }
+        };
 
-            const collapseSidebar = () => {
-                if (sidebar.classList.contains('sidebar-expanded')) {
-                    sidebar.classList.remove('sidebar-expanded');
-                    if (isDesktop()) {
-                        mainContent.style.marginLeft = '5rem';
-                    }
-                }
-            };
-
-            const setupLayout = () => {
+        const collapseSidebar = () => {
+            if (sidebar.classList.contains('sidebar-expanded')) {
+                sidebar.classList.remove('sidebar-expanded');
                 if (isDesktop()) {
                     mainContent.style.marginLeft = '5rem';
-                    sidebar.addEventListener('mouseenter', expandSidebar);
-                    sidebar.addEventListener('mouseleave', collapseSidebar);
-                    // Garante que o menu mobile esteja fechado ao redimensionar para desktop
-                    if (sidebar.classList.contains('sidebar-expanded')) {
-                        collapseSidebar();
-                    }
-                    menuOpenIcon.classList.remove('hidden');
-                    menuCloseIcon.classList.add('hidden');
-                } else {
-                    mainContent.style.marginLeft = '0';
-                    sidebar.removeEventListener('mouseenter', expandSidebar);
-                    sidebar.removeEventListener('mouseleave', collapseSidebar);
-                     // Garante que o menu esteja colapsado em mobile
+                }
+            }
+        };
+
+        const setupLayout = () => {
+            if (isDesktop()) {
+                mainContent.style.marginLeft = '5rem';
+                sidebar.addEventListener('mouseenter', expandSidebar);
+                sidebar.addEventListener('mouseleave', collapseSidebar);
+                if (sidebar.classList.contains('sidebar-expanded')) {
                     collapseSidebar();
                 }
-            };
-            
-            setupLayout();
-            window.addEventListener('resize', setupLayout);
+                menuOpenIcon.classList.remove('hidden');
+                menuCloseIcon.classList.add('hidden');
+            } else {
+                mainContent.style.marginLeft = '0';
+                sidebar.removeEventListener('mouseenter', expandSidebar);
+                sidebar.removeEventListener('mouseleave', collapseSidebar);
+                collapseSidebar();
+            }
+        };
+        
+        setupLayout();
+        window.addEventListener('resize', setupLayout);
 
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('visible');
-                    }
-                });
-            }, { threshold: 0.1 });
+        // Mobile menu toggle
+        mobileMenuButton.addEventListener('click', () => {
+            sidebar.classList.toggle('sidebar-expanded');
+            menuOpenIcon.classList.toggle('hidden');
+            menuCloseIcon.classList.toggle('hidden');
+        });
 
-            document.querySelectorAll('.fade-in-up').forEach(el => observer.observe(el));
-            
-            mobileMenuButton.addEventListener('click', () => {
-                sidebar.classList.toggle('sidebar-expanded');
-                menuOpenIcon.classList.toggle('hidden');
-                menuCloseIcon.classList.toggle('hidden');
-            });
-
-            // Fecha o menu mobile ao clicar em um link
-            document.querySelectorAll('#sidebar a').forEach(link => {
-                link.addEventListener('click', () => {
-                    if (!isDesktop() && sidebar.classList.contains('sidebar-expanded')) {
-                         setTimeout(() => {
-                            sidebar.classList.remove('sidebar-expanded');
-                            menuOpenIcon.classList.remove('hidden');
-                            menuCloseIcon.classList.add('hidden');
-                        }, 250);
-                    }
-                });
-            });
-
-            const filterButtons = document.querySelectorAll('.filter-btn');
-            const projectCards = document.querySelectorAll('.project-card');
-
-            filterButtons.forEach(button => {
-                button.addEventListener('click', () => {
-                    filterButtons.forEach(btn => btn.classList.remove('active'));
-                    button.classList.add('active');
-                    const filter = button.dataset.filter;
-                    
-                    projectCards.forEach(card => {
-                        card.style.transition = 'opacity 0.3s ease-out, transform 0.3s ease-out';
-                        card.style.opacity = '0';
-                        card.style.transform = 'scale(0.95)';
-                        
-                        const showCard = filter === 'all' || card.dataset.category === filter;
-                        
-                        setTimeout(() => {
-                            card.style.display = showCard ? 'block' : 'none';
-                            setTimeout(() => {
-                                if(showCard) {
-                                    card.style.opacity = '1';
-                                    card.style.transform = 'scale(1)';
-                                }
-                            }, 20);
-                        }, 300);
-                    });
-                });
+        // Close mobile menu on link click
+        document.querySelectorAll('#sidebar a').forEach(link => {
+            link.addEventListener('click', () => {
+                if (!isDesktop() && sidebar.classList.contains('sidebar-expanded')) {
+                    setTimeout(() => {
+                        sidebar.classList.remove('sidebar-expanded');
+                        menuOpenIcon.classList.remove('hidden');
+                        menuCloseIcon.classList.add('hidden');
+                    }, 250);
+                }
             });
         });
+
+        // Scroll animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.fade-in-up').forEach(el => observer.observe(el));
+
+        // Filter buttons
+        const filterButtonsContainer = document.getElementById('filter-buttons');
+        const portfolioGrid = document.getElementById('portfolio-grid');
+        let currentFilter = CATEGORIES.ALL;
+
+        const filters = [
+            { value: CATEGORIES.ALL, label: CATEGORY_LABELS[CATEGORIES.ALL] },
+            { value: CATEGORIES.RESIDENCIAL, label: CATEGORY_LABELS[CATEGORIES.RESIDENCIAL] },
+            { value: CATEGORIES.COMERCIAL, label: CATEGORY_LABELS[CATEGORIES.COMERCIAL] },
+            { value: CATEGORIES.REFORMA, label: CATEGORY_LABELS[CATEGORIES.REFORMA] },
+            { value: CATEGORIES.FACHADA, label: CATEGORY_LABELS[CATEGORIES.FACHADA] }
+        ];
+
+        function renderFilterButtons() {
+            filterButtonsContainer.innerHTML = filters.map(filter => `
+                <button class="filter-btn ${filter.value === currentFilter ? 'active' : ''}" data-filter="${filter.value}">
+                    ${filter.label}
+                </button>
+            `).join('');
+
+            filterButtonsContainer.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.addEventListener('click', async () => {
+                    currentFilter = btn.dataset.filter;
+                    renderFilterButtons();
+                    await loadProjects(currentFilter);
+                });
+            });
+        }
+
+        // Helper function to get cover image from project
+        function getCoverImage(project) {
+            if (project.project_images && project.project_images.length > 0) {
+                return project.project_images[0].image_url;
+            }
+            return 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=800';
+        }
+
+        async function loadProjects(category = CATEGORIES.ALL) {
+            portfolioGrid.innerHTML = '<p class="col-span-full text-center text-stone-600 py-12">Carregando projetos...</p>';
+            
+            const result = await projectService.getAllProjects(category);
+            
+            if (result.success && result.data.length > 0) {
+                portfolioGrid.innerHTML = result.data.map(project => `
+                    <div class="project-card fade-in-up visible" data-project-id="${project.id}">
+                        <div class="relative overflow-hidden rounded-lg group aspect-w-4 aspect-h-3">
+                            <img src="${getCoverImage(project)}" 
+                                 alt="${project.title}" 
+                                 class="w-full h-48 md:h-64 object-cover transform group-hover:scale-110 transition-transform duration-500" 
+                                 loading="lazy">
+                            <div class="overlay absolute inset-0 flex flex-col justify-center items-center p-4 md:p-6 text-center">
+                                <h3 class="text-lg md:text-xl font-bold text-stone-800 font-lora mb-1">${project.title}</h3>
+                                <p class="text-stone-600 text-xs md:text-sm">${project.style || CATEGORY_LABELS[project.category] || ''}</p>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+
+                // Add click handlers for project cards
+                portfolioGrid.querySelectorAll('.project-card').forEach(card => {
+                    card.addEventListener('click', () => {
+                        const projectId = card.dataset.projectId;
+                        openProjectModal(projectId, result.data);
+                    });
+                });
+            } else if (result.success && result.data.length === 0) {
+                portfolioGrid.innerHTML = '<p class="col-span-full text-center text-stone-600 py-12">Nenhum projeto encontrado nesta categoria.</p>';
+            } else {
+                console.error('Erro ao carregar projetos:', result.error);
+                portfolioGrid.innerHTML = '<p class="col-span-full text-center text-stone-600 py-12">Erro ao carregar projetos. Tente novamente mais tarde.</p>';
+            }
+        }
+
+        // Modal functionality
+        const modal = document.getElementById('project-modal');
+        const modalTitle = document.getElementById('modal-title');
+        const modalContent = document.getElementById('modal-content');
+        const closeModalBtn = document.getElementById('close-modal');
+
+        // Variáveis globais para a galeria
+        let currentGalleryImages = [];
+        let currentImageIndex = 0;
+
+        function openProjectModal(projectId, projects) {
+            const project = projects.find(p => p.id === projectId);
+            if (!project) return;
+
+            const images = project.project_images || [];
+            currentGalleryImages = images;
+            currentImageIndex = 0;
+
+            const hasMultipleImages = images.length > 1;
+            const coverImage = images.length > 0 ? images[0].image_url : 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=800';
+
+            modalTitle.textContent = project.title;
+            modalContent.innerHTML = `
+                <div class="gallery-container">
+                    <div class="gallery-main">
+                        ${hasMultipleImages ? `
+                            <button class="gallery-nav gallery-nav-prev" id="gallery-prev" aria-label="Imagem anterior">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="15 18 9 12 15 6"/>
+                                </svg>
+                            </button>
+                        ` : ''}
+                        
+                        <div class="gallery-main-image-wrapper">
+                            <img id="gallery-main-image" 
+                                 src="${coverImage}" 
+                                 alt="${project.title}"
+                                 class="gallery-main-image">
+                            ${hasMultipleImages ? `
+                                <div class="gallery-counter">
+                                    <span id="gallery-current">1</span> / ${images.length}
+                                </div>
+                            ` : ''}
+                        </div>
+                        
+                        ${hasMultipleImages ? `
+                            <button class="gallery-nav gallery-nav-next" id="gallery-next" aria-label="Próxima imagem">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="9 18 15 12 9 6"/>
+                                </svg>
+                            </button>
+                        ` : ''}
+                    </div>
+                    
+                    ${hasMultipleImages ? `
+                        <div class="gallery-thumbnails" id="gallery-thumbnails">
+                            ${images.map((img, index) => `
+                                <button class="gallery-thumb ${index === 0 ? 'active' : ''}" 
+                                        data-index="${index}"
+                                        aria-label="Ver imagem ${index + 1}">
+                                    <img src="${img.image_url}" alt="Miniatura ${index + 1}" loading="lazy">
+                                </button>
+                            `).join('')}
+                        </div>
+                    ` : ''}
+                </div>
+                
+                <div class="flex flex-wrap gap-2 mb-4">
+                    <span class="px-3 py-1 bg-stone-200 text-stone-700 rounded-full text-sm">${CATEGORY_LABELS[project.category] || project.category}</span>
+                    ${project.style ? `<span class="px-3 py-1 bg-stone-300 text-stone-800 rounded-full text-sm">${project.style}</span>` : ''}
+                </div>
+                <p class="text-stone-600 leading-relaxed">${project.description || 'Sem descrição disponível.'}</p>
+            `;
+            
+            // Adicionar event listeners para navegação
+            if (hasMultipleImages) {
+                setupGalleryNavigation();
+            }
+            
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function setupGalleryNavigation() {
+            const prevBtn = document.getElementById('gallery-prev');
+            const nextBtn = document.getElementById('gallery-next');
+            const thumbnails = document.querySelectorAll('.gallery-thumb');
+
+            if (prevBtn) {
+                prevBtn.addEventListener('click', () => navigateGallery('prev'));
+            }
+            if (nextBtn) {
+                nextBtn.addEventListener('click', () => navigateGallery('next'));
+            }
+
+            thumbnails.forEach(thumb => {
+                thumb.addEventListener('click', () => {
+                    const index = parseInt(thumb.dataset.index);
+                    goToImage(index);
+                });
+            });
+        }
+
+        function navigateGallery(direction) {
+            const totalImages = currentGalleryImages.length;
+            if (totalImages <= 1) return;
+
+            if (direction === 'next') {
+                currentImageIndex = (currentImageIndex + 1) % totalImages;
+            } else {
+                currentImageIndex = (currentImageIndex - 1 + totalImages) % totalImages;
+            }
+
+            updateGalleryDisplay();
+        }
+
+        function goToImage(index) {
+            if (index >= 0 && index < currentGalleryImages.length) {
+                currentImageIndex = index;
+                updateGalleryDisplay();
+            }
+        }
+
+        function updateGalleryDisplay() {
+            const mainImage = document.getElementById('gallery-main-image');
+            const counter = document.getElementById('gallery-current');
+            const thumbnails = document.querySelectorAll('.gallery-thumb');
+
+            if (mainImage) {
+                mainImage.style.opacity = '0';
+                setTimeout(() => {
+                    mainImage.src = currentGalleryImages[currentImageIndex].image_url;
+                    mainImage.style.opacity = '1';
+                }, 150);
+            }
+
+            if (counter) {
+                counter.textContent = currentImageIndex + 1;
+            }
+
+            thumbnails.forEach((thumb, index) => {
+                thumb.classList.toggle('active', index === currentImageIndex);
+            });
+
+            // Scroll thumbnail into view
+            const activeThumb = document.querySelector('.gallery-thumb.active');
+            if (activeThumb) {
+                activeThumb.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+            }
+        }
+
+        function closeModal() {
+            modal.classList.add('hidden');
+            document.body.style.overflow = '';
+        }
+
+        closeModalBtn.addEventListener('click', closeModal);
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) closeModal();
+        });
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeModal();
+            // Navegação por setas quando o modal está aberto
+            if (!modal.classList.contains('hidden')) {
+                if (e.key === 'ArrowLeft') navigateGallery('prev');
+                if (e.key === 'ArrowRight') navigateGallery('next');
+            }
+        });
+
+        // Hero Slideshow
+        const heroSlides = document.querySelectorAll('.hero-slide');
+        const heroIndicators = document.querySelectorAll('.hero-indicator');
+        let currentSlide = 0;
+        let slideInterval;
+
+        function showSlide(index) {
+            heroSlides.forEach((slide, i) => {
+                slide.style.opacity = i === index ? '1' : '0';
+            });
+            heroIndicators.forEach((indicator, i) => {
+                indicator.classList.toggle('bg-white', i === index);
+                indicator.classList.toggle('bg-white/50', i !== index);
+            });
+            currentSlide = index;
+        }
+
+        function nextSlide() {
+            const next = (currentSlide + 1) % heroSlides.length;
+            showSlide(next);
+        }
+
+        function startSlideshow() {
+            slideInterval = setInterval(nextSlide, 10000); // 10 segundos
+        }
+
+        function resetSlideshow() {
+            clearInterval(slideInterval);
+            startSlideshow();
+        }
+
+        // Indicadores clicáveis
+        heroIndicators.forEach((indicator, index) => {
+            indicator.addEventListener('click', () => {
+                showSlide(index);
+                resetSlideshow();
+            });
+        });
+
+        // Iniciar slideshow
+        showSlide(0);
+        startSlideshow();
+
+        // Initialize
+        renderFilterButtons();
+        loadProjects();
     </script>
 
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -137,7 +137,8 @@ npm test -- --watch
 ### Erro: "Cannot connect to Supabase"
 
 - Verifique se os containers Docker estão rodando: `docker ps`
-- Verifique as portas: 54321 (API), 54322 (DB), 54323 (Studio)
+- Verifique as portas: 54322 (DB), 54323 (Studio)
+- **Nota**: Este projeto usa setup híbrido - Storage e Auth estão no Supabase Cloud, apenas o DB é local
 - Tente resetar: `npm run docker:reset`
 
 ### Erro: "Permission denied" no banco
@@ -145,11 +146,75 @@ npm test -- --watch
 - Verifique as policies RLS no Supabase
 - Certifique-se de estar autenticado para operações que requerem auth
 
+### Erro: "Bucket 'project-images' não existe"
+
+Este erro ocorre quando o bucket de storage não foi criado no Supabase Cloud. Siga estes passos:
+
+**Nota**: Este projeto usa Storage no Supabase Cloud (não local). O bucket deve ser criado no dashboard do Supabase.
+
+#### Verificar se o bucket existe no Supabase Cloud
+
+1. Acesse o [Supabase Dashboard](https://app.supabase.com)
+2. Selecione seu projeto
+3. Vá em **Storage** > **Buckets**
+4. Verifique se o bucket `project-images` está listado
+
+#### Criar o bucket no Supabase Cloud (se não existir)
+
+1. No Supabase Dashboard, vá em **Storage** > **Buckets**
+2. Clique em **New bucket**
+3. Configure:
+   - **Name**: `project-images`
+   - **Public bucket**: ✅ Sim
+   - **File size limit**: `52428800` (50MB)
+   - **Allowed MIME types**: `image/jpeg, image/png, image/webp, image/gif`
+4. Clique em **Create bucket**
+
+#### Verificar variáveis de ambiente
+
+Certifique-se de que seu arquivo `.env` está configurado com as credenciais do Supabase Cloud:
+
+```env
+VITE_SUPABASE_URL=https://seu-projeto.supabase.co
+VITE_SUPABASE_ANON_KEY=sua-chave-anon
+```
+
+#### Verificar se as migrações foram executadas
+
+```bash
+# Verificar logs do container do banco
+docker logs carolbrito-db
+
+# Resetar e executar todas as migrações novamente
+npm run docker:reset
+```
+
+
+#### Criar o bucket via SQL (alternativa)
+
+Se preferir criar via SQL, execute no Supabase Studio (SQL Editor):
+
+```sql
+INSERT INTO storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
+VALUES (
+    'project-images', 
+    'project-images', 
+    true,
+    52428800,
+    ARRAY['image/jpeg', 'image/png', 'image/webp', 'image/gif']
+)
+ON CONFLICT (id) DO UPDATE 
+SET public = EXCLUDED.public,
+    file_size_limit = EXCLUDED.file_size_limit,
+    allowed_mime_types = EXCLUDED.allowed_mime_types;
+```
+
 ### Imagens não aparecem
 
-- Verifique se o bucket `project-images` existe
-- Verifique as policies do storage
+- Verifique se o bucket `project-images` existe (veja seção acima)
+- Verifique as policies do storage no Supabase Studio
 - Verifique se as URLs das imagens estão corretas
+- Verifique os logs do navegador para erros de CORS ou permissão
 
 ## 📚 Próximos Passos
 
@@ -159,3 +224,4 @@ npm test -- --watch
 4. ⏭️ Criar primeiro projeto via admin
 5. ⏭️ Personalizar conteúdo
 6. ⏭️ Deploy em produção
+

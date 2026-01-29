@@ -5,6 +5,8 @@ export class LoginForm {
     }
 
     render() {
+        const errorHtml = this.errorMessage ? `<div class="form-error">${this.errorMessage}</div>` : '';
+        
         return `
             <form id="login-form" class="space-y-4">
                 <div>
@@ -23,10 +25,15 @@ export class LoginForm {
                            class="form-input"
                            autocomplete="current-password">
                 </div>
-                ${this.errorMessage ? `<div class="form-error">${this.errorMessage}</div>` : ''}
-                <button type="submit" class="btn btn-primary w-full">
-                    Entrar
-                </button>
+                ${errorHtml}
+                <div class="login-buttons-container">
+                    <button type="submit" class="btn btn-primary login-btn-submit">
+                        Entrar
+                    </button>
+                    <a href="/" class="btn btn-home-login" aria-label="Ir para a página inicial">
+                        🏠 Home Page
+                    </a>
+                </div>
             </form>
         `;
     }
