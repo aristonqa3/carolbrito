@@ -25,12 +25,15 @@ export class FilterButton {
     }
 }
 
+import { debounce } from '../../lib/utils/debounce.js';
+
 export class FilterButtonGroup {
     constructor(containerId, filters, onFilterChange) {
         this.container = document.getElementById(containerId);
         this.filters = filters;
         this.currentFilter = 'all';
-        this.onFilterChange = onFilterChange;
+        // Aplicar debounce de 300ms para evitar múltiplas requisições
+        this.onFilterChange = debounce(onFilterChange, 300);
     }
 
     render() {

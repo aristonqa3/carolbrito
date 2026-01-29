@@ -10,6 +10,7 @@ export class ProjectGrid {
         this.projects = [];
         this.currentFilter = 'all';
         this.modal = new ProjectModal();
+        this.observer = null; // Armazenar referência do observer para cleanup
         this.onProjectClick = onProjectClick || ((projectId) => {
             this.openProjectModal(projectId);
         });
@@ -18,6 +19,9 @@ export class ProjectGrid {
     render(projects, filter = 'all') {
         this.projects = projects;
         this.currentFilter = filter;
+
+        // Desconectar observer anterior antes de re-renderizar
+        this.disconnectObserver();
 
         const filteredProjects = filter === 'all' 
             ? projects 
@@ -32,16 +36,19 @@ export class ProjectGrid {
             return;
         }
 
-        this.container.innerHTML = filteredProjects.map(project => {
-            const card = new ProjectCard(project, this.onProjectClick);
-            return card.render();
-        }).join('');
+        // Renderizar cards e armazenar referências para event listeners
+        const cardInstances = filteredProjects.map(project => 
+            new ProjectCard(project, this.onProjectClick)
+        );
 
-        // Attach event listeners
+        // Renderizar HTML
+        this.container.innerHTML = cardInstances.map(card => card.render()).join('');
+
+        // Attach event listeners usando as instâncias já criadas
         this.container.querySelectorAll('.project-card').forEach((element, index) => {
-            const project = filteredProjects[index];
-            const card = new ProjectCard(project, this.onProjectClick);
-            card.attachEventListeners(element);
+            if (cardInstances[index]) {
+                cardInstances[index].attachEventListeners(element);
+            }
         });
 
         // Trigger animations
@@ -56,17 +63,31 @@ export class ProjectGrid {
     }
 
     observeElements() {
-        const observer = new IntersectionObserver((entries) => {
+        // Desconectar observer anterior se existir
+        this.disconnectObserver();
+
+        // Criar novo observer
+        this.observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('visible');
+                    // Desconectar após animação para economizar recursos
+                    this.observer.unobserve(entry.target);
                 }
             });
         }, { threshold: 0.1 });
 
-        this.container.querySelectorAll('.fade-in-up').forEach(el => {
-            observer.observe(el);
+        // Observar apenas elementos novos
+        this.container.querySelectorAll('.fade-in-up:not(.visible)').forEach(el => {
+            this.observer.observe(el);
         });
+    }
+
+    disconnectObserver() {
+        if (this.observer) {
+            this.observer.disconnect();
+            this.observer = null;
+        }
     }
 
     filter(category) {

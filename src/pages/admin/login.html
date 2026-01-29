@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
     <title>Admin - Ana Karoline Arquitetura</title>
     
     <!-- Google Fonts -->
@@ -22,10 +25,82 @@
             justify-content: center;
             background-color: var(--color-background);
         }
+        
+        /* Container do login */
+        .login-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: var(--spacing-md);
+            width: 100%;
+        }
+        
+        /* ============================================
+           CONTAINER DE BOTÕES DO LOGIN
+           ============================================ */
+        .login-buttons-container {
+            display: flex;
+            gap: var(--spacing-md);
+            width: 100%;
+            margin-top: var(--spacing-md);
+        }
+        
+        .login-btn-submit {
+            flex: 1;
+            min-width: 0;
+        }
+        
+        .btn-home-login {
+            background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
+            color: #ffffff;
+            text-decoration: none;
+            padding: var(--spacing-sm) var(--spacing-md);
+            border-radius: var(--radius-md);
+            font-weight: var(--font-weight-medium);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--spacing-xs);
+            transition: all var(--transition-fast);
+            box-shadow: var(--shadow-sm);
+            border: none;
+            cursor: pointer;
+            flex: 1;
+            min-width: 0;
+            white-space: nowrap;
+        }
+        
+        .btn-home-login:hover {
+            background: linear-gradient(135deg, #15803d 0%, #166534 100%);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-md);
+            color: #ffffff;
+        }
+        
+        .btn-home-login:active {
+            transform: translateY(0);
+        }
+        
+        .btn-home-login:focus {
+            outline: 2px solid #16a34a;
+            outline-offset: 2px;
+        }
+        
+        @media (max-width: 480px) {
+            .login-buttons-container {
+                flex-direction: column;
+            }
+            
+            .login-btn-submit,
+            .btn-home-login {
+                width: 100%;
+            }
+        }
     </style>
 </head>
 <body>
-    <div class="min-h-screen flex items-center justify-center p-4 w-full">
+    <!-- Container do Login -->
+    <div class="login-container">
         <div class="bg-white rounded-lg shadow-xl p-8 max-w-md w-full">
             <h1 class="text-3xl font-bold font-lora mb-6 text-center text-stone-800">Painel Admin</h1>
             <div id="login-form-container"></div>

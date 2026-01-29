@@ -22,10 +22,12 @@
     "@supabase/supabase-js": "^2.39.0"
   },
   "devDependencies": {
+    "@playwright/test": "^1.40.0",
+    "jsdom": "^27.4.0",
     "supabase": "^2.39.2",
+    "terser": "^5.46.0",
     "vite": "^5.0.0",
-    "vitest": "^1.0.0",
-    "@playwright/test": "^1.40.0"
+    "vitest": "^1.0.0"
   },
   "keywords": [
     "portfolio",

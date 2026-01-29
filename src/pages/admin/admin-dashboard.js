@@ -1,7 +1,7 @@
 import { ProjectForm } from '../../components/Admin/ProjectForm.js';
 import { projectService } from '../../services/project.service.js';
 import { authService } from '../../services/auth.service.js';
-import { CATEGORY_LABELS } from '../../lib/utils/constants.js';
+import { CATEGORY_LABELS, CATEGORIES } from '../../lib/utils/constants.js';
 
 // Verificar autenticação
 authService.getSession().then(result => {
@@ -30,14 +30,121 @@ async function initDashboard() {
     formContainer.innerHTML = projectForm.render();
     projectForm.attachEventListeners(formContainer);
 
+    // Criar modal de edição
+    createEditModal();
+
     // Logout
     document.getElementById('logout-btn').addEventListener('click', async () => {
         await authService.signOut();
-        window.location.href = './login.html';
+        window.location.href = '/';
     });
 
     // Carregar projetos
     await loadProjects();
+}
+
+function createEditModal() {
+    const modalHtml = `
+        <div id="edit-modal" class="modal-overlay" style="display: none;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="font-lora">Editar Projeto</h3>
+                    <button type="button" class="modal-close" onclick="closeEditModal()">&times;</button>
+                </div>
+                <form id="edit-form" class="modal-body">
+                    <input type="hidden" id="edit-project-id">
+                    
+                    <div class="form-group">
+                        <label for="edit-title">Título *</label>
+                        <input type="text" id="edit-title" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="edit-description">Descrição *</label>
+                        <textarea id="edit-description" rows="4" required></textarea>
+                    </div>
+                    
+                    <div class="form-row-2col">
+                        <div class="form-group">
+                            <label for="edit-category">Categoria *</label>
+                            <select id="edit-category" required>
+                                <option value="${CATEGORIES.RESIDENCIAL}">${CATEGORY_LABELS[CATEGORIES.RESIDENCIAL]}</option>
+                                <option value="${CATEGORIES.COMERCIAL}">${CATEGORY_LABELS[CATEGORIES.COMERCIAL]}</option>
+                                <option value="${CATEGORIES.REFORMA}">${CATEGORY_LABELS[CATEGORIES.REFORMA]}</option>
+                                <option value="${CATEGORIES.FACHADA}">${CATEGORY_LABELS[CATEGORIES.FACHADA]}</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="edit-style">Estilo</label>
+                            <input type="text" id="edit-style" placeholder="Ex: Moderno, Minimalista">
+                        </div>
+                    </div>
+                    
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" onclick="closeEditModal()">Cancelar</button>
+                        <button type="submit" class="btn btn-primary">Salvar Alterações</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    `;
+    
+    document.body.insertAdjacentHTML('beforeend', modalHtml);
+    
+    // Event listener do formulário
+    document.getElementById('edit-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        await saveProjectEdit();
+    });
+    
+    // Fechar modal ao clicar fora
+    document.getElementById('edit-modal').addEventListener('click', (e) => {
+        if (e.target.id === 'edit-modal') {
+            closeEditModal();
+        }
+    });
+}
+
+window.openEditModal = function(projectId, title, description, category, style) {
+    document.getElementById('edit-project-id').value = projectId;
+    document.getElementById('edit-title').value = title;
+    document.getElementById('edit-description').value = description;
+    document.getElementById('edit-category').value = category;
+    document.getElementById('edit-style').value = style || '';
+    document.getElementById('edit-modal').style.display = 'flex';
+};
+
+window.closeEditModal = function() {
+    document.getElementById('edit-modal').style.display = 'none';
+};
+
+async function saveProjectEdit() {
+    const projectId = document.getElementById('edit-project-id').value;
+    const updates = {
+        title: document.getElementById('edit-title').value,
+        description: document.getElementById('edit-description').value,
+        category: document.getElementById('edit-category').value,
+        style: document.getElementById('edit-style').value || null
+    };
+    
+    const submitBtn = document.querySelector('#edit-form button[type="submit"]');
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Salvando...';
+    
+    try {
+        const result = await projectService.updateProject(projectId, updates);
+        
+        if (result.success) {
+            closeEditModal();
+            await loadProjects();
+        } else {
+            alert('Erro ao salvar: ' + result.error);
+        }
+    } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Salvar Alterações';
+    }
 }
 
 async function loadProjects() {
@@ -45,7 +152,7 @@ async function loadProjects() {
     const container = document.getElementById('projects-list');
 
     if (!result.success || !result.data || result.data.length === 0) {
-        container.innerHTML = '<p class="text-stone-600 text-center py-8">Nenhum projeto cadastrado ainda.</p>';
+        container.innerHTML = '<div class="empty-state"><p>Nenhum projeto cadastrado ainda.</p></div>';
         return;
     }
 
@@ -54,41 +161,164 @@ async function loadProjects() {
         const categoryLabel = CATEGORY_LABELS[project.category] || project.category;
 
         return `
-            <div class="project-item">
-                <div class="flex justify-between items-start mb-3">
-                    <div class="flex-1">
-                        <h3 class="text-xl font-bold font-lora text-stone-800 mb-1">${project.title}</h3>
-                        <div class="flex gap-2 mb-2">
+            <div class="project-item" data-project-id="${project.id}">
+                <div class="project-header">
+                    <div class="project-info">
+                        <h3 class="project-title font-lora">${project.title}</h3>
+                        <div class="project-tags">
                             <span class="category-tag">${categoryLabel}</span>
                             ${project.style ? `<span class="style-tag">${project.style}</span>` : ''}
                         </div>
-                        <p class="text-stone-600 text-sm">${project.description.substring(0, 150)}${project.description.length > 150 ? '...' : ''}</p>
+                        <p class="project-description">${project.description}</p>
                     </div>
-                    <button onclick="deleteProject('${project.id}')" 
-                            class="bg-red-600 text-white px-3 py-1 rounded text-sm hover:bg-red-700 ml-4">
-                        Excluir
-                    </button>
+                    <div class="project-actions">
+                        <button onclick="openEditModal('${project.id}', '${project.title.replace(/'/g, "\\'")}', '${project.description.replace(/'/g, "\\'")}', '${project.category}', '${(project.style || '').replace(/'/g, "\\'")}')" 
+                                class="btn-edit"
+                                aria-label="Editar projeto">
+                            ✏️ Editar
+                        </button>
+                        <button onclick="deleteProject('${project.id}')" 
+                                class="btn-delete"
+                                aria-label="Excluir projeto">
+                            Excluir
+                        </button>
+                    </div>
                 </div>
-                ${images.length > 0 ? `
-                    <div class="flex gap-2 overflow-x-auto">
-                        ${images.slice(0, 5).map(img => `
-                            <img src="${img.image_url}" alt="${project.title}" class="image-preview">
-                        `).join('')}
-                        ${images.length > 5 ? `<div class="flex items-center text-stone-500">+${images.length - 5} mais</div>` : ''}
+                
+                <!-- Seção de Imagens -->
+                <div class="images-section">
+                    <div class="images-header">
+                        <p class="cover-hint">
+                            ${images.length > 0 ? '📷 Clique na estrela para definir como capa | X para remover' : '📷 Adicione imagens ao projeto'}
+                        </p>
+                        <label class="btn-add-images">
+                            <input type="file" 
+                                   accept="image/*" 
+                                   multiple 
+                                   onchange="addImages('${project.id}', this.files)"
+                                   style="display: none;">
+                            <span>+ Adicionar Fotos</span>
+                        </label>
                     </div>
-                ` : ''}
+                    
+                    ${images.length > 0 ? `
+                        <div class="project-images">
+                            ${images.map((img, index) => `
+                                <div class="image-wrapper ${index === 0 ? 'is-cover' : ''}" 
+                                     data-project-id="${project.id}" 
+                                     data-image-id="${img.id}">
+                                    <img src="${img.image_url}" 
+                                         alt="${project.title}" 
+                                         class="image-preview"
+                                         loading="lazy">
+                                    ${index === 0 ? '<span class="cover-badge">CAPA</span>' : ''}
+                                    <div class="image-actions">
+                                        ${index !== 0 ? `
+                                            <button class="btn-set-cover" 
+                                                    onclick="event.stopPropagation(); setCoverImage('${project.id}', '${img.id}')"
+                                                    title="Definir como capa">
+                                                ⭐
+                                            </button>
+                                        ` : ''}
+                                        <button class="btn-remove-image" 
+                                                onclick="event.stopPropagation(); deleteImage('${img.id}', '${project.id}')"
+                                                title="Remover imagem">
+                                            ✕
+                                        </button>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    ` : '<p class="no-images-text">Nenhuma imagem cadastrada</p>'}
+                </div>
             </div>
         `;
     }).join('');
 
-    // Adicionar função global para deletar
+    // Função global para deletar projeto
     window.deleteProject = async (id) => {
-        if (confirm('Tem certeza que deseja excluir este projeto?')) {
+        if (confirm('Tem certeza que deseja excluir este projeto e todas as suas imagens?')) {
             const result = await projectService.deleteProject(id);
             if (result.success) {
                 await loadProjects();
             } else {
                 alert('Erro ao excluir projeto: ' + result.error);
+            }
+        }
+    };
+
+    // Função global para definir capa
+    window.setCoverImage = async (projectId, imageId) => {
+        const projectItem = document.querySelector(`.project-item[data-project-id="${projectId}"]`);
+        if (projectItem) {
+            projectItem.style.opacity = '0.6';
+            projectItem.style.pointerEvents = 'none';
+        }
+
+        try {
+            const result = await projectService.setCoverImage(projectId, imageId);
+            
+            if (result.success) {
+                await loadProjects();
+            } else {
+                alert('Erro ao definir imagem de capa: ' + result.error);
+            }
+        } finally {
+            if (projectItem) {
+                projectItem.style.opacity = '1';
+                projectItem.style.pointerEvents = 'auto';
+            }
+        }
+    };
+
+    // Função global para adicionar imagens
+    window.addImages = async (projectId, files) => {
+        if (!files || files.length === 0) return;
+
+        const projectItem = document.querySelector(`.project-item[data-project-id="${projectId}"]`);
+        if (projectItem) {
+            projectItem.style.opacity = '0.6';
+            projectItem.style.pointerEvents = 'none';
+        }
+
+        try {
+            const result = await projectService.addImagesToProject(projectId, Array.from(files));
+            
+            if (result.success) {
+                await loadProjects();
+            } else {
+                alert('Erro ao adicionar imagens: ' + result.error);
+            }
+        } finally {
+            if (projectItem) {
+                projectItem.style.opacity = '1';
+                projectItem.style.pointerEvents = 'auto';
+            }
+        }
+    };
+
+    // Função global para remover imagem
+    window.deleteImage = async (imageId, projectId) => {
+        if (!confirm('Tem certeza que deseja remover esta imagem?')) return;
+
+        const projectItem = document.querySelector(`.project-item[data-project-id="${projectId}"]`);
+        if (projectItem) {
+            projectItem.style.opacity = '0.6';
+            projectItem.style.pointerEvents = 'none';
+        }
+
+        try {
+            const result = await projectService.deleteImage(imageId);
+            
+            if (result.success) {
+                await loadProjects();
+            } else {
+                alert('Erro ao remover imagem: ' + result.error);
+            }
+        } finally {
+            if (projectItem) {
+                projectItem.style.opacity = '1';
+                projectItem.style.pointerEvents = 'auto';
             }
         }
     };
