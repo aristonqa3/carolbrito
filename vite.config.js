@@ -16,9 +16,9 @@ export default defineConfig({
     },
     rollupOptions: {
       input: {
-        main: resolve(__dirname, 'src/pages/index.html'),
-        admin: resolve(__dirname, 'src/pages/admin/dashboard.html'),
-        adminLogin: resolve(__dirname, 'src/pages/admin/login.html')
+        main: './src/pages/index.html',
+        admin: './src/pages/admin/dashboard.html',
+        adminLogin: './src/pages/admin/login.html'
       },
       output: {
         manualChunks: {
